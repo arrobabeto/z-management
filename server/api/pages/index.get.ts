@@ -34,7 +34,9 @@ function buildWelcomePage(): IPage {
           de: "Welcome to the Orbitype Headless CMS Template",
         },
         lead: welcomePageLead(),
+        workflow: welcomeDeveloperWorkflow(),
         capabilities: welcomeCapabilities(),
+        cmsGuide: welcomeCmsGuide(),
         steps: welcomePageSteps(sqlKeyConfigured),
         hasSqlKeyConfigured: sqlKeyConfigured,
         apiKeysUrl: ORBITYPE_API_KEYS_URL,
@@ -48,8 +50,8 @@ function buildWelcomePage(): IPage {
 
 function welcomePageLead() {
   return {
-    en: "Start here after cloning. This starter renders the welcome page until Orbitype is connected and serving CMS content.",
-    de: "Start here after cloning. This starter renders the welcome page until Orbitype is connected and serving CMS content.",
+    en: "Start here after cloning. Design in Figma (Figma MCP), build sections in Cursor, then publish page JSON with Orbitype MCP. This welcome page stays visible until live CMS rows are returned.",
+    de: "Start here after cloning. Design in Figma (Figma MCP), build sections in Cursor, then publish page JSON with Orbitype MCP. This welcome page stays visible until live CMS rows are returned.",
   }
 }
 
@@ -111,8 +113,172 @@ function welcomePageSteps(sqlKeyConfigured: boolean) {
   ]
 }
 
+function welcomeDeveloperWorkflow() {
+  return [
+    {
+      label: { en: "Figma", de: "Figma" },
+      detail: {
+        en: "Design page layout, typography, and section content structure.",
+        de: "Design page layout, typography, and section content structure.",
+      },
+    },
+    {
+      label: { en: "Figma MCP", de: "Figma MCP" },
+      detail: {
+        en: "Pull frames, spacing, and copy into Cursor while you implement.",
+        de: "Pull frames, spacing, and copy into Cursor while you implement.",
+      },
+    },
+    {
+      label: { en: "Cursor build", de: "Cursor build" },
+      detail: {
+        en: "Ship components/sections/Section*.vue\nAnySection auto-loads them.",
+        de: "Ship components/sections/Section*.vue\nAnySection auto-loads them.",
+      },
+    },
+    {
+      label: { en: "Orbitype MCP", de: "Orbitype MCP" },
+      detail: {
+        en: "Publish pages.sections JSON to PostgreSQL\nvia sql_crud_execute.",
+        de: "Publish pages.sections JSON to PostgreSQL\nvia sql_crud_execute.",
+      },
+    },
+  ]
+}
+
+function welcomeCmsGuide() {
+  return {
+    title: {
+      en: "CMS system guide",
+      de: "CMS system guide",
+    },
+    lead: {
+      en: "Nuxt components + JSON in pages.sections. Content is always a Vue section file plus matching database JSON, editable via Orbitype SQL MCP.",
+      de: "Nuxt components + JSON in pages.sections. Content is always a Vue section file plus matching database JSON, editable via Orbitype SQL MCP.",
+    },
+    docsUrl: "https://www.orbitype.com/docs/oQSPNY",
+    items: [
+      {
+        title: { en: "Request flow" },
+        text: {
+          en: "User URL → pages/* → server/api/* → Orbitype SQL API → row with sections JSON array → AnySection.vue maps _orbi.component to components/sections/*.vue.",
+        },
+      },
+      {
+        title: { en: "Codebase map" },
+        text: {
+          en: "pages/[[slug]].vue (generic pages), platform/solutions/vs detail routes, posts/docs routes, server/api/* handlers, components/sections/AnySection.vue, types/util/Section.d.ts.",
+        },
+      },
+      {
+        title: { en: "Multiple websites" },
+        text: {
+          en: "One Orbitype API key per connector. Same section system; different .env keys and .cursor/mcp.json entries per site or environment.",
+        },
+      },
+      {
+        title: { en: "Sections contract" },
+        text: {
+          en: 'Each section object requires _orbi.component matching the Vue filename (SectionFeatureCallout.vue → "SectionFeatureCallout"). Localized props use en and de with useTranslate(). No registry file.',
+        },
+        code: `{
+  "_orbi": { "component": "SectionFeatureCallout" },
+  "title": { "en": "...", "de": "..." }
+}`,
+      },
+      {
+        title: { en: "Cursor MCP setup" },
+        text: {
+          en: "Add orbitype-sql (and optional s3) servers to .cursor/mcp.json. Every session: orbitype_get_context first, then sql_readonly_query or sql_crud_execute.",
+        },
+        code: `{
+  "mcpServers": {
+    "orbitype-sql-prod-website": {
+      "url": "https://core.orbitype.com/api/mcp/v1",
+      "headers": { "X-API-KEY": "\${env:ORBITYPE_SQL_API_KEY_PROD_WEBSITE}" }
+    },
+    "orbitype-s3-public-prod": {
+      "url": "https://core.orbitype.com/api/mcp/v1",
+      "headers": { "X-API-KEY": "\${env:ORBITYPE_S3_PUBLIC_API_KEY_PROD}" }
+    }
+  }
+}`,
+      },
+      {
+        title: { en: "Append a section (SQL)" },
+        text: {
+          en: "Create the Vue section first, then append to pages.sections. Verify with SELECT and open the URL.",
+        },
+        code: `UPDATE pages
+SET sections = (
+  COALESCE(sections, '[]'::json)::jsonb
+  || jsonb_build_array(
+    jsonb_build_object(
+      '_orbi', jsonb_build_object('component', 'SectionFeatureCallout'),
+      'title', jsonb_build_object('en', '<p>Title</p>', 'de', '<p>Titel</p>'),
+      'content', jsonb_build_object('en', '<p>Body</p>', 'de', '<p>Text</p>'),
+      'variant', 'highlight'
+    )
+  )
+)::json
+WHERE slug = 'home';`,
+      },
+      {
+        title: { en: "Insert at position (SQL)" },
+        text: {
+          en: "Use jsonb_insert to place a section at a specific index (example: second section at index 1).",
+        },
+        code: `UPDATE pages
+SET sections = jsonb_insert(
+  COALESCE(sections, '[]'::json)::jsonb,
+  '{1}',
+  jsonb_build_object(
+    '_orbi', jsonb_build_object('component', 'SectionFeatureCallout'),
+    'title', jsonb_build_object('en', 'Inserted', 'de', 'Eingefuegt')
+  ),
+  false
+)::json
+WHERE slug = 'home';`,
+      },
+      {
+        title: { en: "Safe content workflow" },
+        text: {
+          en: "sql_readonly_query → backup sections JSON → sql_crud_execute → re-read row → verify in browser and SEO fields.",
+        },
+      },
+      {
+        title: { en: "Quick SQL snippets" },
+        text: {
+          en: "List slugs, list components on a page, or find all pages using a given section component.",
+        },
+        code: `SELECT id, slug, updated_at FROM pages ORDER BY updated_at DESC;
+
+SELECT section->'_orbi'->>'component' AS component_name
+FROM pages, json_array_elements(sections) AS section
+WHERE slug = 'home';
+
+SELECT p.slug FROM pages p, json_array_elements(p.sections) AS section
+WHERE section->'_orbi'->>'component' = 'SectionFeatureCallout';`,
+      },
+      {
+        title: { en: "Common pitfalls" },
+        text: {
+          en: "Wrong connector (run orbitype_get_context), _orbi.component name mismatch, sections not a JSON array, missing en/de on translated fields, missing required Vue props.",
+        },
+      },
+    ],
+  }
+}
+
 function welcomeCapabilities() {
   return [
+    {
+      title: { en: "CMS request flow" },
+      text: {
+        en: "Routes call server/api handlers that query Orbitype SQL and render sections through AnySection.vue.",
+      },
+      badge: "CMS",
+    },
     {
       title: { en: "SEO & metadata" },
       text: {

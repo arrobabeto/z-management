@@ -2,6 +2,19 @@
 
 Production-ready Nuxt starter for Orbitype-powered websites with section-driven pages, i18n (`en` + `de`), and server-rendered SEO metadata.
 
+## Developer workflow (Figma → Cursor → Orbitype)
+
+Typical flow for a new page or section:
+
+1. **Design in Figma** — Define layout, typography, and content structure per section.
+2. **Figma MCP in Cursor** — Inspect frames and specs from Figma while implementing (spacing, copy, assets).
+3. **Build in this repo** — Add `components/sections/Section*.vue`; `AnySection.vue` auto-loads them. Match props to the JSON you will store (`I18nString` with `en` / `de`).
+4. **Publish with Orbitype MCP** — In Cursor, configure `.cursor/mcp.json`, run `orbitype_get_context`, then use `sql_readonly_query` and `sql_crud_execute` to write `sections` JSON into `pages` (after schema install). Re-read the row and open the URL to verify.
+
+Until the SQL API returns real rows, the welcome screen (`SectionWelcome`) explains setup and shows this CMS guide.
+
+Full system reference for agents: [`.cursor/rules/10-architecture/03-orbitype-cms.mdc`](.cursor/rules/10-architecture/03-orbitype-cms.mdc). The onboarding welcome screen (`SectionWelcome`) repeats the workflow and CMS guide when `ORBITYPE_MOCK=true`, SQL env is missing, the API errors, or no CMS rows exist. Official Orbitype docs: [API Authentication](https://www.orbitype.com/docs/oQSPNY).
+
 ## 3-minute start
 
 ```bash
@@ -43,6 +56,177 @@ Then run:
 ```bash
 npm run dev
 ```
+
+If the SQL API is missing, invalid, or returns no rows, the same welcome/onboarding page is shown until CMS content is available.
+
+## How the CMS works
+
+This repository is a Nuxt marketing frontend that reads page content from PostgreSQL through internal API routes and the Orbitype SQL API.
+
+Official Orbitype API and MCP docs: [Orbitype Docs - API Authentication](https://www.orbitype.com/docs/oQSPNY)
+
+### Request flow
+
+1. User opens a URL (for example `/`, `/platform`, `/docs/...`).
+2. A Nuxt page in `pages/*` handles the route.
+3. The page calls an internal endpoint in `server/api/*`.
+4. The endpoint posts SQL to `ORBITYPE_API_SQL_URL` with `X-API-KEY: ORBITYPE_API_SQL_KEY` (see `server/api/pages/index.get.ts` and sibling handlers).
+5. The database row is returned with a `sections` JSON array.
+6. `components/sections/AnySection.vue` renders each section.
+
+### Multiple websites in one setup
+
+Orbitype supports multiple sites via separate connector-scoped API keys:
+
+- One API key is scoped to one connector.
+- Each connector can point to a different database/schema or content scope.
+- In Cursor, define multiple MCP servers in `.cursor/mcp.json` (production site, marketing site, local, and so on).
+
+Same section system and rendering code; different data per connector/key.
+
+### Important files
+
+| Area | Path |
+|------|------|
+| Generic pages | `pages/[[slug]].vue` → `server/api/pages/index.get.ts` |
+| Detail routes | `pages/platform/[slug].vue`, `pages/solutions/[slug].vue`, `pages/vs/[slug].vue` |
+| Posts / docs | `pages/posts/[id]/[[slug]].vue`, `pages/docs/[id]/[[slug]].vue` |
+| API handlers | `server/api/*` |
+| Section renderer | `components/sections/AnySection.vue` |
+| Section type | `types/util/Section.d.ts` |
+| Welcome fallback | `server/api/pages/index.get.ts` |
+
+### Sections system
+
+Each row includes metadata (`title`, `lead`, `keywords`, …) and `sections` (JSON array). Every section must include:
+
+```json
+{
+  "_orbi": {
+    "component": "SectionWelcome"
+  }
+}
+```
+
+`AnySection.vue` auto-loads all `components/sections/*.vue`. The `_orbi.component` value must match the Vue component name (for example `SectionFeatureCallout.vue` → `"SectionFeatureCallout"`). No registration file is needed.
+
+Localized fields use `en` and `de` keys with `useTranslate()`.
+
+### Cursor MCP for content editing
+
+Create or update `.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "orbitype-sql-prod-website": {
+      "url": "https://core.orbitype.com/api/mcp/v1",
+      "headers": {
+        "X-API-KEY": "${env:ORBITYPE_SQL_API_KEY_PROD_WEBSITE}"
+      }
+    },
+    "orbitype-sql-prod-marketing": {
+      "url": "https://core.orbitype.com/api/mcp/v1",
+      "headers": {
+        "X-API-KEY": "${env:ORBITYPE_SQL_API_KEY_PROD_MARKETING}"
+      }
+    },
+    "orbitype-s3-public-prod": {
+      "url": "https://core.orbitype.com/api/mcp/v1",
+      "headers": {
+        "X-API-KEY": "${env:ORBITYPE_S3_PUBLIC_API_KEY_PROD}"
+      }
+    }
+  }
+}
+```
+
+Recommended first call in each Cursor session: `orbitype_get_context`, then `sql_readonly_query` for reads and `sql_crud_execute` for writes.
+
+### Example: add a new section
+
+**1. Create** `components/sections/SectionFeatureCallout.vue` (see existing sections for `I18nString` props and `SafeHtml` usage).
+
+**2. Append to a page** (for example `home`):
+
+```sql
+UPDATE pages
+SET sections = (
+  COALESCE(sections, '[]'::json)::jsonb
+  || jsonb_build_array(
+    jsonb_build_object(
+      '_orbi', jsonb_build_object('component', 'SectionFeatureCallout'),
+      'title', jsonb_build_object(
+        'en', '<p>Why teams switch to Orbitype</p>',
+        'de', '<p>Warum Teams zu Orbitype wechseln</p>'
+      ),
+      'content', jsonb_build_object(
+        'en', '<p>Run CRM, outreach, and automation in one place.</p>',
+        'de', '<p>CRM, Outreach und Automatisierung an einem Ort.</p>'
+      ),
+      'variant', 'highlight'
+    )
+  )
+)::json
+WHERE slug = 'home';
+```
+
+**3. Verify**
+
+```sql
+SELECT slug, sections FROM pages WHERE slug = 'home';
+```
+
+Open `/` and confirm the section appears.
+
+**Insert at a specific position** (second section, index `1`):
+
+```sql
+UPDATE pages
+SET sections = jsonb_insert(
+  COALESCE(sections, '[]'::json)::jsonb,
+  '{1}',
+  jsonb_build_object(
+    '_orbi', jsonb_build_object('component', 'SectionFeatureCallout'),
+    'title', jsonb_build_object('en', 'Inserted section', 'de', 'Eingefuegter Abschnitt'),
+    'content', jsonb_build_object('en', '<p>Inserted by SQL.</p>', 'de', '<p>Per SQL eingefuegt.</p>')
+  ),
+  false
+)::json
+WHERE slug = 'home';
+```
+
+### Safe content workflow
+
+1. Read current data with `sql_readonly_query`.
+2. Save a backup copy of the current `sections` JSON.
+3. Apply updates with `sql_crud_execute`.
+4. Re-read the row and verify JSON.
+5. Open the target URL and confirm rendering and SEO.
+
+### Common pitfalls
+
+- Component name mismatch between `_orbi.component` and the `.vue` file name.
+- Missing required section props.
+- Invalid `sections` shape (must stay an array of objects).
+- Missing `en` / `de` on localized fields.
+- Editing the wrong connector — run `orbitype_get_context` first.
+
+### Quick SQL snippets
+
+```sql
+SELECT id, slug, updated_at FROM pages ORDER BY updated_at DESC;
+
+SELECT section->'_orbi'->>'component' AS component_name
+FROM pages, json_array_elements(sections) AS section
+WHERE slug = 'home';
+
+SELECT p.slug
+FROM pages p, json_array_elements(p.sections) AS section
+WHERE section->'_orbi'->>'component' = 'SectionFeatureCallout';
+```
+
+For AI-assisted edits in this repo, see `.cursor/rules/10-architecture/03-orbitype-cms.mdc`.
 
 ## What to edit first
 
@@ -98,4 +282,3 @@ Current smoke coverage:
   - Run `npx playwright install` once.
 - **Port 3000 is already taken**
   - Start on another port: `npx nuxi dev --port 3001`.
-# orbitype-cms-template

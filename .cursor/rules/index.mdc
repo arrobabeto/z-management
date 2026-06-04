@@ -12,7 +12,7 @@ This is the V2 version of our Cursor rules, organized for better discoverability
 
 ### 00-meta
 Rules about rules - how to write, organize, and maintain our rule system.
-- [(mdming.mdc)
+- [Naming Conventions](mdc:00-meta/00-naming.mdc)
 - [Rule Structure](mdc:00-meta/01-structure.mdc)
 - [General Principles](mdc:00-meta/01-general-principles.mdc)
 
@@ -20,6 +20,7 @@ Rules about rules - how to write, organize, and maintain our rule system.
 High-level architecture decisions and patterns.
 - [Base Stack and Dependencies](mdc:10-architecture/01-base-stack.mdc)
 - [Component Composition](mdc:10-architecture/02-composition.mdc)
+- [Orbitype Headless CMS](mdc:10-architecture/03-orbitype-cms.mdc)
 
 ### 20-principles
 Core development principles and philosophies.
@@ -40,7 +41,9 @@ Design patterns and their implementation.
 - [Composition Pattern](mdc:30-patterns/04-composition.mdc)
 
 ### 40-guidelines
-General pricodi- [K40-guidelines/01-keep-it-slat]s/02-keep-urls-flat.mdc)
+General principles and practices.
+- [Keep It Simple](mdc:40-guidelines/01-keep-it-simple.mdc)
+- [Keep URLs Flat](mdc:40-guidelines/02-keep-urls-flat.mdc)
 
 ### 50-database
 Database-related rules and best practices.
@@ -58,7 +61,8 @@ UI development guidelines and patterns.
 - Functional utilities (pure functions, composition, ...)
 - Simplicity (KISS, YAGNI, ...)
 - Validity (type safety, linting, ...)
-- Modularity (separation of concerns, abstractions, .pment Guidelation
+- Modularity (separation of concerns, abstractions, ...)
+- Orbitype CMS: Figma → Figma MCP → Cursor sections → Orbitype MCP `sections` JSON ([Orbitype Headless CMS](mdc:10-architecture/03-orbitype-cms.mdc))
 - Prefer Vue-onic code style
 - Prefer Tailwind-onic code style
 - Keep prototype features and extend them
@@ -103,13 +107,14 @@ UI development guidelines and patterns.
 ## Quick Links
 
 ### Most Referenced Rules
-1. [Code Quality Improvement](mdc:20-code-quality/01-code-quality-improvement.mdc)
-2. [Store Management](mdc:30-patterns/01-store-management.mdc)
-3. [Do Not Over-Engineer](mdc:20-principles/04-do-not-over-engineer.mdc)
+1. [Orbitype Headless CMS](mdc:10-architecture/03-orbitype-cms.mdc)
+2. [Code Quality Improvement](mdc:20-code-quality/01-code-quality-improvement.mdc)
+3. [Store Management](mdc:30-patterns/01-store-management.mdc)
+4. [Do Not Over-Engineer](mdc:20-principles/04-do-not-over-engineer.mdc)
 
 ### Recently Updated
-1. [Research UI Library](mdc:60-ui/02-research-ui-library.mdc)
-2. [Database Interaction](mdc:50-database/01-database-interaction.mdc)
+1. [Orbitype Headless CMS](mdc:10-architecture/03-orbitype-cms.mdc)
+2. [Research UI Library](mdc:60-ui/02-research-ui-library.mdc)
 
 ## Using These Rules
 

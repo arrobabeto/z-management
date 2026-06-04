@@ -6,14 +6,34 @@
 
   defineOptions({ name: "SectionWelcome" })
 
+  type WelcomeGuideItem = {
+    title: I18nString
+    text: I18nString
+    code?: string
+  }
+
+  type WelcomeCmsGuide = {
+    title: I18nString
+    lead: I18nString
+    docsUrl?: string
+    items: WelcomeGuideItem[]
+  }
+
+  type WelcomeWorkflowStep = {
+    label: I18nString
+    detail: I18nString
+  }
+
   const p = defineProps<{
     title: I18nString
     lead: I18nString
+    workflow?: WelcomeWorkflowStep[]
     capabilities: {
       title: I18nString
       text: I18nString
       badge?: string
     }[]
+    cmsGuide?: WelcomeCmsGuide
     steps: {
       title: I18nString
       text: I18nString
@@ -25,6 +45,30 @@
   }>()
 
   const t = useTranslate()
+
+  const WORKFLOW_VISUALS = [
+    {
+      step: "01",
+      tone: "workflow-card--figma",
+      icon: "figma",
+    },
+    {
+      step: "02",
+      tone: "workflow-card--mcp",
+      icon: "bridge",
+    },
+    {
+      step: "03",
+      tone: "workflow-card--cursor",
+      icon: "cursor",
+    },
+    {
+      step: "04",
+      tone: "workflow-card--orbitype",
+      icon: "database",
+    },
+  ] as const
+
   const installStatus = ref<"idle" | "loading" | "success" | "error">("idle")
   const installMessage = ref(
     "Start the wizard to install schema into your Orbitype workspace.",
@@ -129,6 +173,149 @@
       </div>
 
       <div
+        v-if="p.workflow && p.workflow.length > 0"
+        class="workflow-panel mb-3 overflow-hidden rounded-[1.75rem] border border-[#e0e0e0]/80 bg-[#fefefe]/90 p-5 shadow-[0_1px_1px_rgba(1,1,1,0.04),0_8px_24px_rgba(1,1,1,0.06)] backdrop-blur-xl dark:border-[#3b3d4b]/80 dark:bg-[#191a22]/90 dark:shadow-[0_1px_1px_rgba(0,0,0,0.2),0_12px_32px_rgba(0,0,0,0.35)] sm:p-6"
+      >
+        <header class="mb-6 text-center sm:mb-7">
+          <p
+            class="text-[11px] font-medium uppercase tracking-[0.2em] text-[#1384ff]"
+          >
+            Recommended path
+          </p>
+          <h2
+            class="mt-2 text-lg font-semibold tracking-tight text-[#010101] dark:text-[#fefefe] sm:text-xl"
+          >
+            Developer workflow
+          </h2>
+          <p
+            class="mx-auto mt-2 max-w-md text-xs leading-6 text-[#4e4e4e] dark:text-[#9ca3af] sm:text-sm"
+          >
+            Design in Figma, implement in Cursor, publish section JSON with
+            Orbitype MCP.
+          </p>
+        </header>
+
+        <ol class="workflow-track">
+          <template v-for="(w, wi) of p.workflow" :key="wi">
+            <li
+              class="workflow-card"
+              :class="WORKFLOW_VISUALS[wi]?.tone"
+            >
+              <div class="workflow-card__inner">
+                <div class="workflow-card__icon" aria-hidden="true">
+                  <svg
+                    v-if="WORKFLOW_VISUALS[wi]?.icon === 'figma'"
+                    viewBox="0 0 24 24"
+                    class="size-5"
+                    fill="none"
+                  >
+                    <path
+                      d="M8 3H12C14.2 3 16 4.8 16 7C16 9.2 14.2 11 12 11H8V3Z"
+                      fill="#F24E1E"
+                    />
+                    <path
+                      d="M8 11H12C14.2 11 16 12.8 16 15C16 17.2 14.2 19 12 19H8V11Z"
+                      fill="#FF7262"
+                    />
+                    <path
+                      d="M8 19H12C13.1 19 14 18.1 14 17C14 15.9 13.1 15 12 15H8V19Z"
+                      fill="#A259FF"
+                    />
+                    <path
+                      d="M4 7C4 4.8 5.8 3 8 3H8V11H4V7Z"
+                      fill="#1ABCFE"
+                    />
+                    <path
+                      d="M4 15C4 12.8 5.8 11 8 11H8V19H4V15Z"
+                      fill="#0ACF83"
+                    />
+                  </svg>
+                  <svg
+                    v-else-if="WORKFLOW_VISUALS[wi]?.icon === 'bridge'"
+                    viewBox="0 0 24 24"
+                    class="size-5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      d="M4 12h6m4 0h6M10 8v8m4-8v8"
+                    />
+                    <circle cx="7" cy="12" r="2" fill="currentColor" />
+                    <circle cx="17" cy="12" r="2" fill="currentColor" />
+                  </svg>
+                  <svg
+                    v-else-if="WORKFLOW_VISUALS[wi]?.icon === 'cursor'"
+                    viewBox="0 0 24 24"
+                    class="size-5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M8 6l8 6-8 6V6z"
+                    />
+                    <path
+                      stroke-linecap="round"
+                      d="M5 5v14"
+                      opacity="0.45"
+                    />
+                  </svg>
+                  <svg
+                    v-else
+                    viewBox="0 0 24 24"
+                    class="size-5"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                  >
+                    <ellipse cx="12" cy="6" rx="7" ry="3" />
+                    <path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6" />
+                    <path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6" />
+                  </svg>
+                </div>
+                <div class="workflow-card__body">
+                  <span class="workflow-card__step">{{
+                    WORKFLOW_VISUALS[wi]?.step ?? String(wi + 1).padStart(2, "0")
+                  }}</span>
+                  <h3 class="workflow-card__title">
+                    {{ t(w.label) }}
+                  </h3>
+                  <p class="workflow-card__detail">
+                    {{ t(w.detail) }}
+                  </p>
+                </div>
+              </div>
+            </li>
+            <li
+              v-if="wi < p.workflow.length - 1"
+              class="workflow-connector"
+              aria-hidden="true"
+            >
+              <span class="workflow-connector__line workflow-connector__line--v" />
+              <svg
+                class="workflow-connector__chevron"
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M6 4l4 4-4 4"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </li>
+          </template>
+        </ol>
+      </div>
+
+      <div
         class="mb-3 rounded-[1.75rem] border border-[#e0e0e0] bg-[#fefefe]/95 p-3 shadow-2xl shadow-[#010101]/10 backdrop-blur dark:border-[#282a36] dark:bg-[#191a22]/95 dark:shadow-[#010101]/30"
       >
         <div
@@ -175,6 +362,72 @@
             </p>
           </li>
         </ul>
+      </div>
+
+      <div
+        v-if="p.cmsGuide"
+        class="mb-3 rounded-[1.75rem] border border-[#e0e0e0] bg-[#fefefe]/95 p-3 shadow-2xl shadow-[#010101]/10 backdrop-blur dark:border-[#282a36] dark:bg-[#191a22]/95 dark:shadow-[#010101]/30"
+      >
+        <div
+          class="mb-2 flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-[#f6f6f6] px-4 py-3 dark:bg-[#22232b]"
+        >
+          <div>
+            <h2
+              class="text-sm font-semibold text-[#010101] dark:text-[#fefefe]"
+            >
+              {{ t(p.cmsGuide.title) }}
+            </h2>
+            <p class="text-xs text-[#4e4e4e] dark:text-[#cbcbcb]">
+              {{ t(p.cmsGuide.lead) }}
+            </p>
+          </div>
+          <a
+            v-if="p.cmsGuide.docsUrl"
+            class="rounded-full border border-[#e0e0e0] bg-[#fefefe] px-3 py-1 text-xs text-[#1384ff] underline decoration-dotted underline-offset-2 dark:border-[#282a36] dark:bg-[#191a22]"
+            :href="p.cmsGuide.docsUrl"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            Orbitype API docs
+          </a>
+        </div>
+
+        <ol class="space-y-2">
+          <li v-for="(g, gi) of p.cmsGuide.items" :key="gi">
+            <details
+              class="group rounded-2xl border border-[#e0e0e0] bg-[#fefefe] transition hover:bg-[#f6f6f6] dark:border-[#282a36] dark:bg-[#191a22] dark:hover:bg-[#22232b]"
+            >
+              <summary
+                class="flex cursor-pointer list-none items-center gap-3 px-4 py-3"
+              >
+                <span
+                  class="grid size-7 shrink-0 place-items-center rounded-full bg-[#2b5876] text-xs font-semibold text-white"
+                >
+                  {{ gi + 1 }}
+                </span>
+                <span
+                  class="min-w-0 flex-1 text-sm font-medium text-[#010101] dark:text-[#fefefe]"
+                >
+                  {{ t(g.title) }}
+                </span>
+                <span
+                  class="text-lg leading-none text-[#4e4e4e] transition group-open:rotate-45 dark:text-[#cbcbcb]"
+                >
+                  +
+                </span>
+              </summary>
+              <div class="px-4 pb-4 pl-14">
+                <p class="text-sm text-[#4e4e4e] dark:text-[#cbcbcb]">
+                  {{ t(g.text) }}
+                </p>
+                <pre
+                  v-if="g.code"
+                  class="mt-3 overflow-x-auto rounded-xl border border-[#e0e0e0] bg-[#f6f6f6] p-3 text-xs leading-6 text-[#010101] dark:border-[#282a36] dark:bg-[#22232b] dark:text-[#fefefe]"
+                ><code>{{ g.code }}</code></pre>
+              </div>
+            </details>
+          </li>
+        </ol>
       </div>
 
       <div
@@ -547,6 +800,307 @@
     }
     100% {
       transform: translateY(-36px);
+    }
+  }
+
+  .workflow-panel {
+    position: relative;
+  }
+
+  .workflow-panel::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 8%;
+    right: 8%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(19, 132, 255, 0.45),
+      transparent
+    );
+    pointer-events: none;
+  }
+
+  .workflow-track {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.625rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 1024px) {
+    .workflow-track {
+      flex-direction: row;
+      align-items: stretch;
+      gap: 0.375rem;
+    }
+  }
+
+  .workflow-card {
+    flex: 1 1 0;
+    min-width: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 1024px) {
+    .workflow-card {
+      min-width: 10.5rem;
+    }
+  }
+
+  .workflow-card__inner {
+    position: relative;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    gap: 0.875rem;
+    padding: 1rem 1.125rem 1.125rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(1, 1, 1, 0.06);
+    background: linear-gradient(
+      165deg,
+      rgba(254, 254, 254, 1) 0%,
+      rgba(246, 246, 246, 0.85) 100%
+    );
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.6) inset,
+      0 1px 2px rgba(1, 1, 1, 0.04),
+      0 6px 20px rgba(1, 1, 1, 0.05);
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .workflow-card__inner:hover {
+    transform: translateY(-3px);
+    border-color: rgba(19, 132, 255, 0.18);
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.7) inset,
+      0 4px 12px rgba(19, 132, 255, 0.08),
+      0 12px 28px rgba(1, 1, 1, 0.08);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .workflow-card__inner {
+      border-color: rgba(255, 255, 255, 0.08);
+      background: linear-gradient(
+        165deg,
+        rgba(34, 35, 43, 0.95) 0%,
+        rgba(25, 26, 34, 1) 100%
+      );
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+        0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+
+    .workflow-card__inner:hover {
+      border-color: rgba(19, 132, 255, 0.35);
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+        0 12px 32px rgba(0, 0, 0, 0.45);
+    }
+  }
+
+  .workflow-card__icon {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    flex-shrink: 0;
+    border-radius: 0.625rem;
+    border: 1px solid rgba(1, 1, 1, 0.06);
+    background: rgba(246, 246, 246, 0.9);
+    color: #1384ff;
+    box-shadow: 0 1px 2px rgba(1, 1, 1, 0.04);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .workflow-card__icon {
+      border-color: rgba(255, 255, 255, 0.08);
+      background: rgba(34, 35, 43, 0.9);
+      color: #7eb8ff;
+    }
+  }
+
+  .workflow-card--figma .workflow-card__icon {
+    border-color: rgba(162, 89, 255, 0.2);
+    background: linear-gradient(
+      135deg,
+      rgba(242, 78, 30, 0.08),
+      rgba(162, 89, 255, 0.12)
+    );
+  }
+
+  .workflow-card--mcp .workflow-card__icon {
+    border-color: rgba(19, 132, 255, 0.22);
+    background: rgba(19, 132, 255, 0.08);
+    color: #1384ff;
+  }
+
+  .workflow-card--cursor .workflow-card__icon {
+    border-color: rgba(1, 1, 1, 0.12);
+    background: linear-gradient(
+      135deg,
+      rgba(1, 1, 1, 0.04),
+      rgba(78, 78, 78, 0.08)
+    );
+    color: #010101;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .workflow-card--cursor .workflow-card__icon {
+      color: #fefefe;
+      background: linear-gradient(
+        135deg,
+        rgba(254, 254, 254, 0.06),
+        rgba(203, 203, 203, 0.04)
+      );
+    }
+  }
+
+  .workflow-card--orbitype .workflow-card__icon {
+    border-color: rgba(11, 123, 105, 0.25);
+    background: rgba(11, 123, 105, 0.1);
+    color: #0b7b69;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .workflow-card--orbitype .workflow-card__icon {
+      color: #a4f4e7;
+    }
+  }
+
+  .workflow-card__step {
+    display: block;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #9ca3af;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .workflow-card__step {
+      color: #6b7280;
+    }
+  }
+
+  .workflow-card__title {
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+    color: #010101;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .workflow-card__title {
+      color: #fefefe;
+    }
+  }
+
+  .workflow-card__detail {
+    margin-top: 0.375rem;
+    font-size: 0.75rem;
+    line-height: 1.55;
+    color: #4e4e4e;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .workflow-card__detail {
+      color: #9ca3af;
+    }
+  }
+
+  .workflow-connector {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    list-style: none;
+    padding: 0.375rem 0;
+  }
+
+  @media (min-width: 1024px) {
+    .workflow-connector {
+      width: 1.25rem;
+      align-self: center;
+      padding: 0 0.125rem;
+    }
+  }
+
+  .workflow-connector__line--v {
+    display: block;
+    width: 1px;
+    min-height: 1.25rem;
+    background: linear-gradient(
+      180deg,
+      transparent,
+      rgba(19, 132, 255, 0.35),
+      transparent
+    );
+  }
+
+  .workflow-connector__chevron {
+    display: none;
+    width: 0.875rem;
+    height: 0.875rem;
+    flex-shrink: 0;
+    color: #9ca3af;
+  }
+
+  @media (min-width: 1024px) {
+    .workflow-connector {
+      flex-direction: row;
+    }
+
+    .workflow-connector__line--v {
+      display: none;
+    }
+
+    .workflow-connector__chevron {
+      display: block;
+    }
+
+    .workflow-connector::before {
+      content: "";
+      flex: 1;
+      height: 1px;
+      min-width: 0.25rem;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(19, 132, 255, 0.35),
+        transparent
+      );
+    }
+
+    .workflow-connector::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      min-width: 0.25rem;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(19, 132, 255, 0.35),
+        transparent
+      );
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .workflow-connector__chevron {
+      color: #6b7280;
     }
   }
 </style>
