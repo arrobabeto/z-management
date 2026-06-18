@@ -5,4 +5,8 @@ export const dt = new (class {
   toLocal(iso: string) {
     return DateTime.fromISO(iso).setLocale("de-ch").toFormat("d. LLLL y HH:mm")
   }
+
+  toBlogDate(iso: string) {
+    return DateTime.fromISO(iso).toFormat("LLL dd, yyyy").toUpperCase()
+  }
 })()

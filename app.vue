@@ -93,7 +93,7 @@
     />
     <Link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=Epilogue:wght@500;600&display=swap"
     />
   </Head>
 
