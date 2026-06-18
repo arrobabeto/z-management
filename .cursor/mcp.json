@@ -1,0 +1,25 @@
+{
+  "mcpServers": {
+    "orbitype-sql-prod-website": {
+      "type": "http",
+      "url": "https://core.orbitype.com/api/mcp/v1",
+      "headers": {
+        "X-API-KEY": "${env:ORBITYPE_SQL_API_KEY_PROD_WEBSITE}"
+      }
+    },
+    "orbitype-sql-prod-marketing": {
+      "type": "http",
+      "url": "https://core.orbitype.com/api/mcp/v1",
+      "headers": {
+        "X-API-KEY": "${env:ORBITYPE_SQL_API_KEY_PROD_MARKETING}"
+      }
+    },
+    "orbitype-s3-public-prod": {
+      "type": "http",
+      "url": "https://core.orbitype.com/api/mcp/v1",
+      "headers": {
+        "X-API-KEY": "${env:ORBITYPE_S3_PUBLIC_API_KEY_PROD}"
+      }
+    }
+  }
+}
