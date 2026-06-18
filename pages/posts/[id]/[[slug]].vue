@@ -18,7 +18,7 @@
   const config = useRuntimeConfig()
 
   const route = useRoute()
-  const id = route.params["id"]
+  const id = String(route.params["id"])
   const commentsEnabled = config.public.commentsEnabled
 
   const post: IPost = await $fetch("/api/posts", { query: { id } })

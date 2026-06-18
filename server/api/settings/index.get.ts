@@ -1,13 +1,15 @@
 import { defineEventHandler, getQuery } from "h3"
+import { getOrbitypeConfig, orbitypeSqlHeaders } from "~/server/utils/orbitype"
 
 export default defineEventHandler(async (event) => {
   const bindings = getQuery(event)
+  const orbitype = getOrbitypeConfig(event)
 
   const sql = "SELECT data FROM settings WHERE id = :id"
 
-  const rows: any = await $fetch(import.meta.env.ORBITYPE_API_SQL_URL, {
+  const rows: any = await $fetch(orbitype.sqlUrl, {
     method: "POST",
-    headers: { "X-API-KEY": import.meta.env.ORBITYPE_API_SQL_KEY },
+    headers: orbitypeSqlHeaders(orbitype),
     body: { sql, bindings },
   })
   return rows[0].data

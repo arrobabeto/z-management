@@ -5,14 +5,17 @@ import {
   CREATE_POSTS_TABLE_SQL,
   CREATE_SETTINGS_TABLE_SQL,
 } from "~/server/utils/cmsSchema"
+import {
+  getOrbitypeConfig,
+  hasOrbitypeSqlConfigured,
+  orbitypeSqlHeaders,
+} from "~/server/utils/orbitype"
 
 type QueryValue = string | string[] | null | undefined
 type QueryBindings = Record<string, QueryValue>
 const ORBITYPE_API_KEYS_URL = "https://app.orbitype.com/settings/api-keys"
 
-function buildWelcomePage(): IPage {
-  const sqlKeyConfigured = hasSqlKeyConfigured()
-
+function buildWelcomePage(sqlKeyConfigured: boolean): IPage {
   return {
     id: "orbitype-headless-cms-template-welcome",
     title: {
@@ -191,7 +194,7 @@ function welcomeCmsGuide() {
       {
         title: { en: "Sections contract" },
         text: {
-          en: 'Put a human-readable field first (title, name, label — not img URLs). _orbi must be the last key so the CMS list shows a skimmable title. Match _orbi.component to the Vue filename. Use en/de with useTranslate().',
+          en: "Put a human-readable field first (title, name, label — not img URLs). _orbi must be the last key so the CMS list shows a skimmable title. Match _orbi.component to the Vue filename. Use en/de with useTranslate().",
         },
         code: `{
   "title": { "en": "...", "de": "..." },
@@ -355,8 +358,8 @@ function queryValueMatches(value: QueryValue, expected: string) {
   return Array.isArray(value) ? value.includes(expected) : value === expected
 }
 
-function getFallbackPage(bindings: QueryBindings) {
-  const welcomePage = buildWelcomePage()
+function getFallbackPage(bindings: QueryBindings, sqlKeyConfigured: boolean) {
+  const welcomePage = buildWelcomePage(sqlKeyConfigured)
   const id = bindings["id"]
   const slug = bindings["slug"]
 
@@ -366,36 +369,14 @@ function getFallbackPage(bindings: QueryBindings) {
   return id || slug ? welcomePage : [welcomePage]
 }
 
-function isMockModeEnabled() {
-  const rawValue = import.meta.env.ORBITYPE_MOCK
-  if (!rawValue) return false
-  const normalizedValue = String(rawValue).trim().toLowerCase()
-  return (
-    normalizedValue === "true" ||
-    normalizedValue === "1" ||
-    normalizedValue === "yes"
-  )
-}
-
-function hasSqlKeyConfigured() {
-  const raw = import.meta.env.ORBITYPE_API_SQL_KEY
-  if (!raw) return false
-  const normalized = String(raw).trim()
-  if (!normalized) return false
-  if (normalized.toLowerCase() === "your-api-key") return false
-  return true
-}
-
 export default defineEventHandler(async (event) => {
   const bindings = getQuery(event) as QueryBindings
+  const orbitype = getOrbitypeConfig(event)
+  const sqlKeyConfigured = hasOrbitypeSqlConfigured(orbitype)
 
-  if (isMockModeEnabled()) return getFallbackPage(bindings)
+  if (orbitype.mock) return getFallbackPage(bindings, sqlKeyConfigured)
 
-  if (
-    !import.meta.env.ORBITYPE_API_SQL_URL ||
-    !import.meta.env.ORBITYPE_API_SQL_KEY
-  )
-    return getFallbackPage(bindings)
+  if (!sqlKeyConfigured) return getFallbackPage(bindings, sqlKeyConfigured)
 
   let sql = "SELECT * FROM pages"
   if (bindings.id) sql += " WHERE id = :id"
@@ -403,17 +384,17 @@ export default defineEventHandler(async (event) => {
 
   let rows: IPage[]
   try {
-    rows = await $fetch(import.meta.env.ORBITYPE_API_SQL_URL, {
+    rows = await $fetch(orbitype.sqlUrl, {
       method: "POST",
-      headers: { "X-API-KEY": import.meta.env.ORBITYPE_API_SQL_KEY },
+      headers: orbitypeSqlHeaders(orbitype),
       body: { sql, bindings },
     })
   } catch {
-    return getFallbackPage(bindings)
+    return getFallbackPage(bindings, sqlKeyConfigured)
   }
 
   if (!Array.isArray(rows) || rows.length === 0)
-    return getFallbackPage(bindings)
+    return getFallbackPage(bindings, sqlKeyConfigured)
 
   return bindings.id || bindings.slug ? rows[0] : rows
 })

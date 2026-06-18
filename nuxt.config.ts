@@ -34,8 +34,14 @@ export default defineNuxtConfig({
     locales: ["en", "de"],
     strategy: "prefix_except_default",
     detectBrowserLanguage: false,
+    bundle: {
+      optimizeTranslationDirective: false,
+    },
   },
   runtimeConfig: {
+    orbitypeApiSqlUrl: process.env.ORBITYPE_API_SQL_URL ?? "",
+    orbitypeApiSqlKey: process.env.ORBITYPE_API_SQL_KEY ?? "",
+    orbitypeMock: process.env.ORBITYPE_MOCK === "true",
     public: {
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
       siteName:
@@ -95,7 +101,8 @@ export default defineNuxtConfig({
     },
   },
   experimental: {
-    typedPages: true,
+    // Hash anchors and dynamic paths in nav/blog conflict with i18n v9 typed routes.
+    typedPages: false,
   },
   build: {
     transpile: [],

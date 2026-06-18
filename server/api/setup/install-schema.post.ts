@@ -3,6 +3,11 @@ import {
   CMS_SCHEMA_SQL_SAFE,
   type TCmsSchemaTable,
 } from "~/server/utils/cmsSchema"
+import {
+  getOrbitypeConfig,
+  hasOrbitypeSqlConfigured,
+  orbitypeSqlHeaders,
+} from "~/server/utils/orbitype"
 
 type TInstallBody = {
   table?: TCmsSchemaTable | "all"
@@ -33,10 +38,9 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  if (
-    !import.meta.env.ORBITYPE_API_SQL_URL ||
-    !import.meta.env.ORBITYPE_API_SQL_KEY
-  ) {
+  const orbitype = getOrbitypeConfig(event)
+
+  if (!hasOrbitypeSqlConfigured(orbitype)) {
     throw createError({
       statusCode: 400,
       statusMessage: `Missing ORBITYPE_API_SQL_URL or ORBITYPE_API_SQL_KEY in environment. Create/find your SQL API key at ${ORBITYPE_API_KEYS_URL}`,
@@ -47,9 +51,9 @@ export default defineEventHandler(async (event) => {
 
   for (const table of requestedTables) {
     try {
-      await $fetch(import.meta.env.ORBITYPE_API_SQL_URL, {
+      await $fetch(orbitype.sqlUrl, {
         method: "POST",
-        headers: { "X-API-KEY": import.meta.env.ORBITYPE_API_SQL_KEY },
+        headers: orbitypeSqlHeaders(orbitype),
         body: { sql: CMS_SCHEMA_SQL_SAFE[table], bindings: {} },
       })
       results.push({ table, status: "ok" })
