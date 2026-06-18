@@ -1,125 +1,100 @@
 <script setup lang="ts">
-  import { computed, ref, watch } from "vue"
-  import type { IPost } from "~/types/dto/IPost"
-  import ButtonV from "~/components/common/ButtonV.vue"
-  import { dt } from "~/functions/dt"
   import { useHead } from "#imports"
   import { useTranslate } from "~/composables/useTranslate"
-  import slug from "slug"
-  import { useI18n } from "#i18n"
-  import { Store } from "~/services/Store"
-  import Widget from "./_Widget.vue"
+  import { fn } from "~/functions/fn"
+  import type { IPost } from "~/types/dto/IPost"
+  import BlogHero from "./_BlogHero.vue"
+  import BlogFeatured from "./_BlogFeatured.vue"
+  import BlogCard from "./_BlogCard.vue"
+  import BlogNewsletterCta from "./_BlogNewsletterCta.vue"
+  import BlogLocation from "./_BlogLocation.vue"
 
   const t = useTranslate()
 
-  const { locale, locales, setLocale } = useI18n()
+  const rows = await $fetch<IPost[]>("/api/posts", {
+    query: {
+      status: "published",
+      limit: 7,
+      orderBy: "created_at",
+      desc: true,
+    },
+  })
 
-  const posts = ref<IPost[]>([])
-  const pagination = ref(0)
-  const postsPerPage = 2
-  const hasMore = ref(false)
-  const isLoading = ref(false)
-  const localeCodes = computed(() =>
-    locales.value.map((x) => (typeof x === "string" ? x : x.code)),
-  )
+  const featured = rows[0]
+  const latest = rows.slice(1)
 
-  async function load() {
-    isLoading.value = true
-    try {
-      const rows = await $fetch<IPost[]>("/api/posts", {
-        query: {
-          status: "published",
-          limit: postsPerPage + 1,
-          offset: pagination.value * postsPerPage,
-          orderBy: "created_at",
-          desc: true,
-        },
-      })
-      hasMore.value = rows.length > postsPerPage
-      posts.value = rows.slice(0, postsPerPage)
-    } finally {
-      isLoading.value = false
-    }
+  function excerpt(post: IPost) {
+    return fn.removeHtml(t(post.lead as any))
   }
 
-  function goPrev() {
-    pagination.value = Math.max(0, pagination.value - 1)
-  }
-
-  function goNext() {
-    if (!hasMore.value) return
-    pagination.value += 1
-  }
-
-  async function switchLocale(code: string) {
-    await setLocale(code)
-  }
-
-  await load()
-  watch(pagination, load)
-
-  useHead({ title: "posts" })
+  useHead({
+    title: t({
+      de: "Blog – Insights für nachhaltigen Erfolg",
+      en: "Blog – Insights for sustainable success",
+    }),
+  })
 </script>
 
 <template>
-  <main class="max-w-3xl mx-auto w-full space-y-5 p-4 sm:py-8">
-    <header class="space-y-1">
-      <p
-        class="text-xs font-semibold uppercase tracking-[0.2em] text-[#1384ff]"
-      >
-        Blog
-      </p>
-      <h1 class="text-2xl font-semibold text-[#010101] dark:text-[#fefefe]">
-        Latest Posts
-      </h1>
-    </header>
+  <main v-if="featured" class="bg-white">
+    <BlogHero
+      :title="{
+        de: 'Insights für nachhaltigen Erfolg',
+        en: 'Insights for sustainable success',
+      }"
+      :subtitle="{
+        de: 'Strategien, Perspektiven und Tools für Unternehmerinnen und Unternehmer.',
+        en: 'Strategies, perspectives and tools for entrepreneurs.',
+      }"
+    />
 
-    <!-- example pagination -->
-    <NuxtLinkLocale
-      v-for="p of posts"
-      :key="p.id"
-      :to="`/posts/${p.id}/${slug(t(p.title))}`"
-      class="block rounded-2xl border border-[#e0e0e0] bg-[#fefefe]/95 p-4 transition hover:-translate-y-0.5 hover:shadow-sm dark:border-[#282a36] dark:bg-[#191a22]/95"
-    >
-      <h2
-        class="line-clamp-2 text-lg font-medium text-[#010101] dark:text-[#fefefe]"
-      >
-        {{ t(p.title) }}
-      </h2>
-      <time class="mt-2 block text-xs text-[#4e4e4e] dark:text-[#cbcbcb]">
-        {{ dt.toLocal(p.created_at) }}
-      </time>
-    </NuxtLinkLocale>
+    <BlogFeatured :post="featured" :excerpt="excerpt(featured)" />
 
-    <!-- example pagination -->
-    <div class="grid grid-cols-3 gap-2 pt-2">
-      <ButtonV :disabled="pagination === 0 || isLoading" @click="goPrev">
-        prev
-      </ButtonV>
-      <ButtonV @click="pagination = 0">{{ pagination }}</ButtonV>
-      <ButtonV :disabled="!hasMore || isLoading" @click="goNext">next</ButtonV>
+    <div class="mx-auto max-w-[1273px] px-6 py-16 lg:px-[120px]">
+      <hr class="border-[#032934]/20" />
     </div>
 
-    <!-- example lang switcher -->
-    <div class="flex justify-center divide-x px-2 children:px-2">
-      <button
-        v-for="l of localeCodes"
-        :key="l"
-        @click="switchLocale(l)"
-        :class="locale === l ? 'font-bold' : ''"
-      >
-        {{ l.toUpperCase() }}
-      </button>
-    </div>
+    <section class="bg-white px-6 py-16 lg:px-[120px]">
+      <div class="mx-auto max-w-[1273px]">
+        <h2
+          class="font-sans text-[28px] font-bold text-brand-darkgreen sm:text-[36px]"
+        >
+          {{ t({ de: "Neueste Beiträge", en: "Latest posts" }) }}
+        </h2>
 
-    <!-- other examples -->
-    <hr class="border-[#e0e0e0] dark:border-[#282a36]" />
-    <button
-      class="rounded-xl border border-[#e0e0e0] bg-[#fefefe] px-3 py-2 text-sm text-[#010101] dark:border-[#282a36] dark:bg-[#191a22] dark:text-[#fefefe]"
-      @click="Store.counter++"
-    >
-      Store.counter: {{ Store.counter }}
-    </button>
-    <Widget />
+        <div class="mt-16 grid gap-16 lg:grid-cols-3 lg:gap-x-6 lg:gap-y-16">
+          <BlogCard
+            v-for="p of latest"
+            :key="p.id"
+            :post="p"
+            :excerpt="excerpt(p)"
+          />
+        </div>
+      </div>
+    </section>
+
+    <BlogNewsletterCta
+      :title="{
+        de: 'Sie möchten keine Insights verpassen?',
+        en: 'Don\'t want to miss any insights?',
+      }"
+      :cta-label="{
+        de: 'Newsletter abonnieren',
+        en: 'Subscribe to newsletter',
+      }"
+      cta-url="#newsletter"
+    />
+
+    <BlogLocation
+      :title="{
+        de: 'Aus der Schweiz für die ganze Welt',
+        en: 'From Switzerland to the world',
+      }"
+      :content="{
+        de: 'Unser Hauptsitz befindet sich im idyllischen Eschenbach – circa 40 Minuten von Zürich entfernt. Allerdings haben wir unsere Prozesse so digitalisiert, dass wir die komplette Zusammenarbeit per Telefon und Video-Konferenz abwickeln können. Ein persönliches Treffen vor Ort ist möglich, aber nicht notwendig. So können wir unsere Kunden aus der Schweiz heraus global betreuen.',
+        en: 'Our headquarters are in idyllic Eschenbach – about 40 minutes from Zurich. We have digitised our processes so that we can handle all collaboration by phone and video conference. An in-person meeting is possible but not necessary. This allows us to support our clients globally from Switzerland.',
+      }"
+      cta-url="mailto:info@z-management.ch"
+    />
   </main>
 </template>

@@ -10,7 +10,9 @@ const tailwind = {
 
   theme: {
     fontFamily: {
-      sans: ["Inter var", "sans-serif"],
+      sans: ["Plus Jakarta Sans", "ui-sans-serif", "system-ui", "sans-serif"],
+      dm: ["DM Sans", "ui-sans-serif", "system-ui", "sans-serif"],
+      epilogue: ["Epilogue", "ui-sans-serif", "system-ui", "sans-serif"],
       serif: ["Merriweather", "serif"],
     },
     colors: ({ colors }) => ({
@@ -19,10 +21,20 @@ const tailwind = {
       black: colors.black,
       white: colors.white,
       gray: colors.gray,
+      // Z-Management brand palette (Figma Design System v1.0)
+      brand: {
+        darkgreen: "#002A35", // primary
+        green: "#00586A", // secondary
+        orange: "#FF6700", // tertiary / CTA
+        yellow: "#FF8A00", // accent
+        darkblue: "#0E2138", // nav text
+        offwhite: "#FDFDFD", // footer text/inputs
+        muted: "#575757", // placeholder text
+      },
       cyan: {
-        ['400']: "#67e8f9",
-        ['500']: "#06b6d4",
-        ['600']: "#0e7490",
+        ["400"]: "#67e8f9",
+        ["500"]: "#06b6d4",
+        ["600"]: "#0e7490",
       },
     }),
     maxWidth: ({ theme, breakpoints }) => ({
