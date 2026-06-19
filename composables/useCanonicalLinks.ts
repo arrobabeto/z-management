@@ -49,7 +49,7 @@ export function useCanonicalLinks(input: TCanonicalLinksInput): TSeoLink[] {
     {
       rel: "alternate",
       hreflang: "x-default",
-      href: absoluteUrl(input.xDefaultPath ?? input.enPath),
+      href: absoluteUrl(input.xDefaultPath ?? input.dePath),
     },
   ]
 }

@@ -3,14 +3,17 @@
   import { useHead, useI18n, useRoute, useRuntimeConfig } from "#imports"
   import { useTranslate } from "~/composables/useTranslate"
   import { useCanonicalLinks } from "~/composables/useCanonicalLinks"
+  import { useLocalePaths } from "~/composables/useLocalePaths"
   import { fn } from "~/functions/fn"
   import type { IPost } from "~/types/dto/IPost"
   import type { IComment } from "~/types/dto/IComment"
-  import { dt } from "~/functions/dt"
   import InputV from "~/components/common/InputV.vue"
   import ButtonV from "~/components/common/ButtonV.vue"
   import { reactive } from "vue"
-  import SafeHtml from "~/components/common/SafeHtml.vue"
+  import BlogDetailHero from "./_BlogDetailHero.vue"
+  import BlogArticle from "./_BlogArticle.vue"
+  import BlogRelated from "./_BlogRelated.vue"
+  import BlogNewsletterCta from "~/pages/posts/_BlogNewsletterCta.vue"
   import { generateOGImageUrl } from "~/utils/ogImageGenerator"
 
   const t = useTranslate()
@@ -23,9 +26,22 @@
 
   const post: IPost = await $fetch("/api/posts", { query: { id } })
   if (!post)
-    throw showError({ statusCode: 404, statusMessage: "Post not found" })
-  const localizedLead = t(post.lead as any)
+    throw showError({
+      statusCode: 404,
+      statusMessage: "Beitrag nicht gefunden",
+    })
+  const localizedLead = t(post.lead)
   const plainLead = fn.removeHtml(localizedLead)
+
+  const relatedRows = await $fetch<IPost[]>("/api/posts", {
+    query: {
+      status: "published",
+      limit: 4,
+      orderBy: "created_at",
+      desc: true,
+    },
+  })
+  const related = relatedRows.filter((r) => r.id !== post.id).slice(0, 3)
 
   const comments = reactive<IComment[]>([])
   if (commentsEnabled) {
@@ -55,12 +71,7 @@
     }
   }
 
-  const isGermanPage = route.path === "/de" || route.path.startsWith("/de/")
-  const enPath = route.path.startsWith("/de/")
-    ? route.path.slice(3) || "/"
-    : route.path
-  const dePath = enPath === "/" ? "/de" : `/de${enPath}`
-  const canonicalPath = isGermanPage ? dePath : enPath
+  const { dePath, enPath, canonicalPath } = useLocalePaths()
   const canonicalUrl = `${config.public.siteUrl}${canonicalPath}`
   const title = t(post.title)
   const description = fn.truncateText(plainLead, 160)
@@ -99,7 +110,6 @@
       canonicalPath,
       enPath,
       dePath,
-      xDefaultPath: enPath,
     }),
     script: [
       {
@@ -139,47 +149,44 @@
 </script>
 
 <template>
-  <main class="max-w-3xl mx-auto w-full space-y-5 p-4 sm:py-8">
-    <NuxtLinkLocale
-      to="/posts"
-      class="inline-flex items-center rounded-lg border border-[#e0e0e0] bg-[#fefefe] px-3 py-1.5 text-sm text-[#010101] hover:bg-[#f6f6f6] dark:border-[#282a36] dark:bg-[#191a22] dark:text-[#fefefe] dark:hover:bg-[#22232b]"
-    >
-      ← back
-    </NuxtLinkLocale>
+  <main class="bg-white">
+    <BlogDetailHero :title="post.title" :image="post.img" />
 
-    <article
-      class="rounded-2xl border border-[#e0e0e0] bg-[#fefefe]/95 p-5 shadow-sm dark:border-[#282a36] dark:bg-[#191a22]/95"
-    >
-      <h1
-        class="text-2xl font-semibold leading-tight text-[#010101] dark:text-[#fefefe]"
-      >
-        {{ t(post.title) }}
-      </h1>
-      <time class="mt-2 block text-xs text-[#4e4e4e] dark:text-[#cbcbcb]">
-        {{ dt.toLocal(post.created_at) }}
-      </time>
-      <div class="prose prose-sm dark:prose-invert mt-4 max-w-none">
-        <SafeHtml :html="localizedLead" />
+    <BlogArticle :html="localizedLead" />
+
+    <BlogRelated :posts="related" />
+
+    <BlogNewsletterCta
+      gradient
+      :title="{
+        de: 'Sie möchten keine Insights verpassen?',
+        en: 'Don\'t want to miss any insights?',
+      }"
+      :cta-label="{
+        de: 'Newsletter abonnieren',
+        en: 'Subscribe to newsletter',
+      }"
+      cta-url="#newsletter"
+    />
+
+    <section v-if="commentsEnabled" class="bg-white px-6 pb-16 lg:px-[120px]">
+      <div class="mx-auto max-w-[852px] space-y-4">
+        <ul class="space-y-2">
+          <li v-for="c of comments" :key="c.id">
+            <p class="text-[16px] text-brand-darkgreen">{{ c.text }}</p>
+          </li>
+        </ul>
+
+        <form @submit.prevent="onSubmit" class="flex gap-2">
+          <InputV
+            v-model="newComment.text"
+            placeholder="Neuer Kommentar"
+            required
+            class="grow"
+          />
+          <ButtonV submit>{{ t("send") }}</ButtonV>
+        </form>
       </div>
-    </article>
-
-    <ul
-      v-if="commentsEnabled"
-      class="space-y-2 rounded-2xl border border-[#e0e0e0] bg-[#fefefe]/95 p-4 dark:border-[#282a36] dark:bg-[#191a22]/95"
-    >
-      <li v-for="c of comments" :key="c.id">
-        <p class="text-sm text-[#010101] dark:text-[#fefefe]">{{ c.text }}</p>
-      </li>
-    </ul>
-
-    <form v-if="commentsEnabled" @submit.prevent="onSubmit" class="flex gap-2">
-      <InputV
-        v-model="newComment.text"
-        placeholder="new comment"
-        required
-        class="grow"
-      />
-      <ButtonV submit>Send</ButtonV>
-    </form>
+    </section>
   </main>
 </template>

@@ -30,8 +30,8 @@ export default defineNuxtConfig({
     domains: ["localhost", "s3.eu-central-2.amazonaws.com"],
   },
   i18n: {
-    defaultLocale: "en",
-    locales: ["en", "de"],
+    defaultLocale: "de",
+    locales: ["de", "en"],
     strategy: "prefix_except_default",
     detectBrowserLanguage: false,
     bundle: {
@@ -55,7 +55,7 @@ export default defineNuxtConfig({
       defaultLocale:
         process.env.NUXT_PUBLIC_DEFAULT_LOCALE ??
         process.env.NUXT_PUBLIC_SITE_LOCALE ??
-        "en_US",
+        "de_DE",
       twitterSite: process.env.NUXT_PUBLIC_TWITTER_SITE ?? "@orbitype",
       twitterCreator: process.env.NUXT_PUBLIC_TWITTER_CREATOR ?? "@orbitype",
       ogImageEnabled: process.env.NUXT_PUBLIC_OG_IMAGE_ENABLED !== "false",

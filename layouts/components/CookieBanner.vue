@@ -1,7 +1,9 @@
 <script lang="ts" setup="">
   import { onMounted, ref } from "vue"
   import ButtonV from "~/components/common/ButtonV.vue"
+  import { useTranslate } from "~/composables/useTranslate"
 
+  const t = useTranslate()
   const STORAGE_KEY = "cookie-consent-choice"
   const isVisible = ref(true)
 
@@ -76,18 +78,41 @@
 <template>
   <div v-if="isVisible" class="fixed inset-x-0 bottom-4 z-[100] px-4">
     <article
-      class="max-w-2xl pointer-events-auto isolate mx-auto rounded-2xl border border-[#e0e0e0] bg-[#fefefe]/95 p-4 shadow-2xl shadow-[#010101]/10 backdrop-blur dark:border-[#282a36] dark:bg-[#191a22]/95 dark:shadow-[#010101]/30"
+      class="max-w-2xl pointer-events-auto isolate mx-auto rounded-2xl border border-black/10 bg-white/95 p-4 shadow-2xl shadow-black/10 backdrop-blur"
     >
-      <h2 class="text-sm font-semibold text-[#010101] dark:text-[#fefefe]">
-        Cookie consent
+      <h2 class="text-sm font-semibold text-brand-darkgreen">
+        {{
+          t({
+            de: "Cookie-Einwilligung",
+            en: "Cookie consent",
+          })
+        }}
       </h2>
-      <p class="mt-1 text-sm text-[#4e4e4e] dark:text-[#cbcbcb]">
-        We use cookies for analytics and personalized content. You can update
-        this choice anytime.
+      <p class="mt-1 text-sm text-brand-muted">
+        {{
+          t({
+            de: "Wir verwenden Cookies für Analysen und personalisierte Inhalte. Sie können diese Auswahl jederzeit ändern.",
+            en: "We use cookies for analytics and personalized content. You can update this choice anytime.",
+          })
+        }}
       </p>
       <div class="mt-4 grid grid-cols-2 gap-2">
-        <ButtonV @click="onDeny">Only essential</ButtonV>
-        <ButtonV @click="onAccept">Accept all</ButtonV>
+        <ButtonV @click="onDeny">
+          {{
+            t({
+              de: "Nur notwendige",
+              en: "Only essential",
+            })
+          }}
+        </ButtonV>
+        <ButtonV @click="onAccept">
+          {{
+            t({
+              de: "Alle akzeptieren",
+              en: "Accept all",
+            })
+          }}
+        </ButtonV>
       </div>
     </article>
   </div>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import { ref } from "vue"
   import { useHead } from "#imports"
   import { useTranslate } from "~/composables/useTranslate"
   import { fn } from "~/functions/fn"
@@ -9,22 +10,49 @@
   import BlogNewsletterCta from "./_BlogNewsletterCta.vue"
   import BlogLocation from "./_BlogLocation.vue"
 
+  const PAGE_SIZE = 6
+
   const t = useTranslate()
 
   const rows = await $fetch<IPost[]>("/api/posts", {
     query: {
       status: "published",
-      limit: 7,
+      limit: 1 + PAGE_SIZE + 1,
       orderBy: "created_at",
       desc: true,
     },
   })
 
   const featured = rows[0]
-  const latest = rows.slice(1)
+  const latest = ref(rows.slice(1, 1 + PAGE_SIZE))
+  const offset = ref(1 + PAGE_SIZE)
+  const hasMore = ref(rows.length > 1 + PAGE_SIZE)
+  const loading = ref(false)
 
   function excerpt(post: IPost) {
-    return fn.removeHtml(t(post.lead as any))
+    return fn.truncateText(fn.removeHtml(t(post.lead)), 160)
+  }
+
+  async function loadMore() {
+    if (loading.value || !hasMore.value) return
+
+    loading.value = true
+    try {
+      const more = await $fetch<IPost[]>("/api/posts", {
+        query: {
+          status: "published",
+          limit: PAGE_SIZE,
+          offset: offset.value,
+          orderBy: "created_at",
+          desc: true,
+        },
+      })
+      latest.value.push(...more)
+      offset.value += more.length
+      hasMore.value = more.length === PAGE_SIZE
+    } finally {
+      loading.value = false
+    }
   }
 
   useHead({
@@ -70,6 +98,21 @@
             :excerpt="excerpt(p)"
           />
         </div>
+
+        <div v-if="hasMore" class="mt-16 flex justify-center">
+          <button
+            type="button"
+            class="blog-load-more inline-flex items-center justify-center rounded-[30px] bg-brand-orange px-14 py-4 font-sans text-[16px] font-semibold text-white transition-colors hover:bg-brand-yellow disabled:cursor-not-allowed disabled:opacity-60"
+            :disabled="loading"
+            @click="loadMore"
+          >
+            {{
+              loading
+                ? t({ de: "Laden…", en: "Loading…" })
+                : t({ de: "Mehr sehen", en: "See more" })
+            }}
+          </button>
+        </div>
       </div>
     </section>
 
@@ -98,3 +141,10 @@
     />
   </main>
 </template>
+
+<style scoped>
+  .blog-load-more {
+    width: auto;
+    flex: none;
+  }
+</style>

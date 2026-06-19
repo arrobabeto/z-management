@@ -8,21 +8,30 @@
   const p = defineProps<{
     title: I18nString
     titleAccent?: I18nString
-    quotes: Quote[]
+    quotes?: Quote[]
   }>()
 
   const t = useTranslate()
   const index = ref(0)
 
+  const quotes = computed(() => p.quotes ?? [])
+  const hasMultiple = computed(() => quotes.value.length > 1)
+
   function prev() {
-    index.value = (index.value - 1 + p.quotes.length) % p.quotes.length
+    if (!hasMultiple.value) return
+    index.value = (index.value - 1 + quotes.value.length) % quotes.value.length
   }
 
   function next() {
-    index.value = (index.value + 1) % p.quotes.length
+    if (!hasMultiple.value) return
+    index.value = (index.value + 1) % quotes.value.length
   }
 
-  const current = computed(() => p.quotes[index.value])
+  function goTo(i: number) {
+    index.value = i
+  }
+
+  const current = computed(() => quotes.value[index.value])
 </script>
 
 <template>
@@ -43,44 +52,87 @@
         </span>
       </h2>
 
-      <div class="mt-16 flex flex-col items-center gap-16">
+      <div v-if="current" class="mt-16 flex flex-col items-center gap-16">
         <div
           class="flex w-full max-w-[1140px] items-center justify-between gap-6"
         >
           <button
+            v-if="hasMultiple"
             type="button"
             class="flex h-11 w-[110px] shrink-0 items-center justify-center rounded-[60px] border border-white text-white transition-colors hover:bg-white/10"
-            aria-label="Previous quote"
+            :aria-label="t({ de: 'Vorheriges Zitat', en: 'Previous quote' })"
             @click="prev"
           >
             ←
           </button>
+          <div v-else class="w-[110px] shrink-0" aria-hidden="true" />
 
-          <blockquote
-            class="max-w-[655px] text-center font-sans text-[24px] font-normal leading-tight text-white lg:text-[36px]"
-          >
-            {{ t(current.text) }}
-          </blockquote>
+          <Transition name="quote-fade" mode="out-in">
+            <blockquote
+              :key="index"
+              class="max-w-[655px] text-center font-sans text-[24px] font-normal leading-tight text-white lg:text-[36px]"
+            >
+              {{ t(current.text) }}
+            </blockquote>
+          </Transition>
 
           <button
+            v-if="hasMultiple"
             type="button"
             class="flex h-11 w-[110px] shrink-0 items-center justify-center rounded-[60px] bg-white text-brand-darkgreen transition-colors hover:bg-brand-offwhite"
-            aria-label="Next quote"
+            :aria-label="t({ de: 'Nächstes Zitat', en: 'Next quote' })"
             @click="next"
           >
             →
           </button>
+          <div v-else class="w-[110px] shrink-0" aria-hidden="true" />
         </div>
 
-        <figcaption class="text-center text-white">
-          <p class="font-sans text-[24px] font-semibold">
-            {{ current.name }}
-          </p>
-          <p class="mt-2 font-sans text-[18px] font-medium text-white/80">
-            {{ t(current.role) }}
-          </p>
-        </figcaption>
+        <Transition name="quote-fade" mode="out-in">
+          <figcaption :key="`author-${index}`" class="text-center text-white">
+            <p class="font-sans text-[24px] font-semibold">
+              {{ current.name }}
+            </p>
+            <p class="mt-2 font-sans text-[18px] font-medium text-white/80">
+              {{ t(current.role) }}
+            </p>
+          </figcaption>
+        </Transition>
+
+        <nav
+          v-if="hasMultiple"
+          class="quote-dots flex items-center justify-center gap-4"
+          :aria-label="t({ de: 'Zitat auswählen', en: 'Select quote' })"
+        >
+          <button
+            v-for="(_, i) of quotes"
+            :key="i"
+            type="button"
+            class="size-[21px] shrink-0 rounded-full transition-colors"
+            :class="i === index ? 'bg-white' : 'bg-white/30'"
+            :aria-label="t({ de: `Zitat ${i + 1}`, en: `Quote ${i + 1}` })"
+            :aria-current="i === index ? 'page' : undefined"
+            @click="goTo(i)"
+          />
+        </nav>
       </div>
     </div>
   </section>
 </template>
+
+<style scoped>
+  .quote-fade-enter-active,
+  .quote-fade-leave-active {
+    transition: opacity 0.25s ease;
+  }
+
+  .quote-fade-enter-from,
+  .quote-fade-leave-to {
+    opacity: 0;
+  }
+
+  .quote-dots button {
+    width: 21px;
+    flex: none;
+  }
+</style>
