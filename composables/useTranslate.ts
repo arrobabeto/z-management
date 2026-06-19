@@ -7,7 +7,7 @@ export function useTranslate() {
   return function (text?: I18nString | Phrase) {
     if (!text) return "..."
     if (typeof text === "string") text = phrases[text]
-    return text[locale.value] ?? text["en"]
+    return text[locale.value] ?? text.de ?? text.en
   }
 }
 

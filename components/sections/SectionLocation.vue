@@ -3,12 +3,15 @@
   import { useTranslate } from "~/composables/useTranslate"
   import type { I18nString } from "~/types/util/I18nString"
 
+  const defaultMapEmbedUrl =
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2709.067757402173!2d8.9282663!3d47.2348205!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x479ac85ceb6bdc87%3A0x2c138acc17c11cba!2sAlte%20Schmerikonerstrasse%205%2C%208733%20Eschenbach%2C%20Switzerland!5e0!3m2!1sen!2smx!4v1781852228341!5m2!1sen!2smx"
+
   const p = defineProps<{
     title: I18nString
     content: I18nString
     ctaLabel?: I18nString
     ctaUrl?: string
-    mapImage?: string
+    mapEmbedUrl?: string
   }>()
 
   const t = useTranslate()
@@ -29,13 +32,16 @@
         {{ t(p.content) }}
       </p>
 
-      <div class="w-full max-w-[1045px] overflow-hidden rounded-[73px]">
-        <NuxtImg
-          :src="p.mapImage || '/blog/map.jpg'"
-          alt=""
-          class="aspect-[1045/380] w-full object-cover"
-          width="1045"
-          height="380"
+      <div
+        class="relative aspect-[1045/380] w-full max-w-[1045px] overflow-hidden rounded-[73px]"
+      >
+        <iframe
+          :src="p.mapEmbedUrl || defaultMapEmbedUrl"
+          title="Z-Management Standort Eschenbach"
+          class="absolute inset-0 size-full border-0"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen
         />
       </div>
 

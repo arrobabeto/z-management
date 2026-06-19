@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import SafeHtml from "~/components/common/SafeHtml.vue"
   import BrandButton from "~/components/generic/BrandButton.vue"
+  import VimeoEmbed from "~/components/sections/_VimeoEmbed.vue"
   import { useTranslate } from "~/composables/useTranslate"
   import type { I18nString } from "~/types/util/I18nString"
 
@@ -12,6 +13,7 @@
     ctaUrl?: string
     thumbImage?: string
     illustrationImage?: string
+    videoUrl?: string
   }>()
 
   const t = useTranslate()
@@ -60,7 +62,9 @@
         </div>
       </div>
 
+      <VimeoEmbed v-if="p.videoUrl" :url="p.videoUrl" :title="t(p.title)" />
       <NuxtImg
+        v-else
         :src="p.illustrationImage || '/homepage/problem-illustration.png'"
         alt=""
         class="w-full max-w-[472px] shrink-0"

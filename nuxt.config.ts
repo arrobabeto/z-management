@@ -30,12 +30,18 @@ export default defineNuxtConfig({
     domains: ["localhost", "s3.eu-central-2.amazonaws.com"],
   },
   i18n: {
-    defaultLocale: "en",
-    locales: ["en", "de"],
+    defaultLocale: "de",
+    locales: ["de", "en"],
     strategy: "prefix_except_default",
     detectBrowserLanguage: false,
+    bundle: {
+      optimizeTranslationDirective: false,
+    },
   },
   runtimeConfig: {
+    orbitypeApiSqlUrl: process.env.ORBITYPE_API_SQL_URL ?? "",
+    orbitypeApiSqlKey: process.env.ORBITYPE_API_SQL_KEY ?? "",
+    orbitypeMock: process.env.ORBITYPE_MOCK === "true",
     public: {
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
       siteName:
@@ -49,7 +55,7 @@ export default defineNuxtConfig({
       defaultLocale:
         process.env.NUXT_PUBLIC_DEFAULT_LOCALE ??
         process.env.NUXT_PUBLIC_SITE_LOCALE ??
-        "en_US",
+        "de_DE",
       twitterSite: process.env.NUXT_PUBLIC_TWITTER_SITE ?? "@orbitype",
       twitterCreator: process.env.NUXT_PUBLIC_TWITTER_CREATOR ?? "@orbitype",
       ogImageEnabled: process.env.NUXT_PUBLIC_OG_IMAGE_ENABLED !== "false",
@@ -95,7 +101,8 @@ export default defineNuxtConfig({
     },
   },
   experimental: {
-    typedPages: true,
+    // Hash anchors and dynamic paths in nav/blog conflict with i18n v9 typed routes.
+    typedPages: false,
   },
   build: {
     transpile: [],

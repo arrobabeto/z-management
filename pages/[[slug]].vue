@@ -9,6 +9,7 @@
   } from "#imports"
   import AnySection from "~/components/sections/AnySection.vue"
   import { useCanonicalLinks } from "~/composables/useCanonicalLinks"
+  import { useLocalePaths } from "~/composables/useLocalePaths"
   import { fn } from "~/functions/fn"
   import type { IPage } from "~/types/dto/IPage"
   import { generateOGImageUrl } from "~/utils/ogImageGenerator"
@@ -19,23 +20,23 @@
 
   const route = useRoute()
   const routeSlug = route.params["slug"]
-  const currentSlug = Array.isArray(routeSlug)
+  let currentSlug = Array.isArray(routeSlug)
     ? routeSlug[0] || "home"
     : routeSlug || "home"
-  const slug =
-    route.path === "/de" && currentSlug === "de" ? "home" : currentSlug
+  if (currentSlug === "en" && (route.path === "/en" || route.path === "/en/")) {
+    currentSlug = "home"
+  }
+  const slug = currentSlug
 
   const page: IPage = await $fetch("/api/pages", { query: { slug } })
   if (!page)
-    throw showError({ statusCode: 404, statusMessage: "Page not found" })
+    throw showError({ statusCode: 404, statusMessage: "Seite nicht gefunden" })
 
   const title = fn.truncateText(t(page.title), 60)
   const description = fn.truncateText(fn.removeHtml(t(page.lead)), 160)
   const keywords = Array.isArray(page.keywords) ? page.keywords.join(", ") : ""
-  const isGermanPage = route.path === "/de" || route.path.startsWith("/de/")
-  const enPath = page.slug === "home" ? "/" : `/${page.slug}`
-  const dePath = page.slug === "home" ? "/de" : `/de/${page.slug}`
-  const canonicalPath = isGermanPage ? dePath : enPath
+  const pagePath = page.slug === "home" ? "/" : `/${page.slug}`
+  const { dePath, enPath, canonicalPath } = useLocalePaths(pagePath)
   const canonicalUrl = `${config.public.siteUrl}${canonicalPath}`
   const ogImage = config.public.ogImageEnabled
     ? generateOGImageUrl({
@@ -72,7 +73,6 @@
       canonicalPath,
       enPath,
       dePath,
-      xDefaultPath: enPath,
     }),
     script: [
       {

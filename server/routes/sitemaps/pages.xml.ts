@@ -12,7 +12,7 @@ type TIndexable = {
   created_at?: string
 }
 
-const langs: TLang[] = ["en", "de"]
+const langs: TLang[] = ["de", "en"]
 
 export default defineEventHandler(async (event) => {
   const siteUrl = process.env.NUXT_PUBLIC_SITE_URL ?? "http://localhost:3000"

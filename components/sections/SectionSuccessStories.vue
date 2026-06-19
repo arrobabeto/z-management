@@ -2,14 +2,7 @@
   import { ref, computed } from "vue"
   import { useTranslate } from "~/composables/useTranslate"
   import type { I18nString } from "~/types/util/I18nString"
-
-  type Story = {
-    quote: I18nString
-    name: string
-    role: I18nString
-    photo?: string
-    logo?: string
-  }
+  import SuccessStoryFlipCard, { type Story } from "./_SuccessStoryFlipCard.vue"
 
   const p = defineProps<{ stories: Story[] }>()
 
@@ -26,68 +19,74 @@
 <template>
   <section class="bg-white px-6 py-16 lg:px-[120px]">
     <div class="mx-auto max-w-[1280px]">
-      <div
-        class="flex flex-col overflow-hidden shadow-[0_4px_10px_rgba(0,0,0,0.05)] lg:flex-row"
-      >
+      <Transition name="story-slide" mode="out-in">
         <div
-          class="relative h-[360px] w-full shrink-0 overflow-hidden rounded-t-[76px] bg-brand-green lg:h-[650px] lg:w-[648px] lg:rounded-bl-[76px] lg:rounded-tl-[76px] lg:rounded-tr-none"
+          :key="index"
+          class="overflow-hidden rounded-[76px] shadow-[0_4px_10px_rgba(0,0,0,0.05)]"
         >
-          <NuxtImg
-            :src="current.photo || '/erfolgsgeschichten/adrian-balz.jpg'"
-            :alt="current.name"
-            class="absolute left-[1.8%] top-[11.7%] h-[88.3%] w-[98.2%] max-w-none object-cover"
-            width="648"
-            height="650"
-          />
+          <SuccessStoryFlipCard :story="current" />
         </div>
+      </Transition>
 
-        <div
-          class="flex w-full flex-col items-center justify-center rounded-b-[76px] bg-[#f6f4f3] px-6 py-12 lg:w-[624px] lg:rounded-br-[76px] lg:rounded-tr-[76px] lg:px-9 lg:py-[137px]"
-        >
-          <div class="flex max-w-[534px] flex-col items-center gap-12">
-            <NuxtImg
-              v-if="current.logo"
-              :src="current.logo"
-              alt=""
-              class="h-9 w-auto"
-              width="130"
-              height="36"
-            />
-
-            <blockquote
-              class="text-center font-sans text-[20px] font-medium italic leading-tight text-black sm:text-[24px]"
-            >
-              {{ t(current.quote) }}
-            </blockquote>
-
-            <figcaption class="text-center text-brand-green">
-              <p class="font-sans text-[20px] font-semibold sm:text-[24px]">
-                {{ current.name }}
-              </p>
-              <p
-                class="mt-1 font-sans text-[18px] font-semibold sm:text-[20px]"
-              >
-                {{ t(current.role) }}
-              </p>
-            </figcaption>
-          </div>
-        </div>
-      </div>
-
-      <div
+      <nav
         v-if="p.stories.length > 1"
-        class="mt-10 flex items-center justify-center gap-4"
+        class="story-dots relative z-10 mt-10 flex items-center justify-center gap-4"
+        :aria-label="
+          t({ de: 'Erfolgsgeschichten auswählen', en: 'Select success story' })
+        "
       >
         <button
           v-for="(_, i) of p.stories"
           :key="i"
           type="button"
-          class="h-[21px] w-[21px] rounded-full transition-colors"
+          class="size-[21px] shrink-0 rounded-full transition-colors"
           :class="i === index ? 'bg-brand-darkgreen' : 'bg-[#d9d9d9]'"
-          :aria-label="`Story ${i + 1}`"
+          :aria-label="
+            t({
+              de: `Erfolgsgeschichte ${i + 1}`,
+              en: `Success story ${i + 1}`,
+            })
+          "
+          :aria-current="i === index ? 'page' : undefined"
           @click="goTo(i)"
         />
-      </div>
+      </nav>
     </div>
   </section>
 </template>
+
+<style scoped>
+  .story-slide-enter-active,
+  .story-slide-leave-active {
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
+  }
+
+  .story-slide-enter-from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+
+  .story-slide-leave-to {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .story-slide-enter-active,
+    .story-slide-leave-active {
+      transition: opacity 0.2s ease;
+    }
+
+    .story-slide-enter-from,
+    .story-slide-leave-to {
+      transform: none;
+    }
+  }
+
+  .story-dots button {
+    width: 21px;
+    flex: none;
+  }
+</style>

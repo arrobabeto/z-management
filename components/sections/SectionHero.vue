@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import BrandButton from "~/components/generic/BrandButton.vue"
+  import { socialLinks } from "~/constants/socialLinks"
   import { useTranslate } from "~/composables/useTranslate"
   import type { I18nString } from "~/types/util/I18nString"
 
@@ -18,12 +19,7 @@
 
   const t = useTranslate()
 
-  const social = [
-    { name: "Facebook", url: "#", highlight: true },
-    { name: "YouTube", url: "#", highlight: false },
-    { name: "X", url: "#", highlight: false },
-    { name: "Instagram", url: "#", highlight: false },
-  ]
+  const social = socialLinks
 </script>
 
 <template>
@@ -37,7 +33,11 @@
           width="1273"
           height="633"
         />
-        <div class="absolute inset-0 bg-black/25" />
+        <!-- Top gradient only: keeps the headline legible while leaving the
+             baked-in white card notch (bottom-left of the photo) white. -->
+        <div
+          class="absolute inset-0 bg-gradient-to-b from-black/55 via-transparent to-transparent"
+        />
 
         <div
           class="absolute inset-x-0 top-[90px] flex flex-col items-center gap-9 px-6 text-center lg:top-[134px]"
@@ -64,13 +64,19 @@
             :href="p.ctaUrl || '#faq'"
           />
         </div>
+      </div>
 
+      <!-- Contact card + lead: stacked below the image on mobile, anchored to the
+           image corners on desktop (card in a white notch, lead bottom-right). -->
+      <div
+        class="mt-6 flex flex-col gap-6 lg:pointer-events-none lg:absolute lg:left-0 lg:top-0 lg:mt-0 lg:block lg:h-[633px] lg:w-full"
+      >
+        <!-- Contact card: flush in the bottom-left corner, sitting in the
+             white notch that is baked into the hero image. -->
         <div
-          class="absolute bottom-6 left-6 right-6 flex flex-col gap-6 lg:bottom-10 lg:left-10 lg:right-10 lg:flex-row lg:items-end lg:justify-between"
+          class="lg:pointer-events-auto lg:absolute lg:bottom-0 lg:left-0 lg:p-3.5"
         >
-          <div
-            class="w-full max-w-[481px] rounded-[30px] bg-brand-green p-5 lg:p-6"
-          >
+          <div class="w-full rounded-[30px] bg-brand-green p-5 lg:w-[481px]">
             <p
               class="font-sans text-[24px] font-semibold leading-tight text-brand-offwhite"
             >
@@ -97,7 +103,7 @@
             </p>
             <a
               :href="p.contactUrl || 'mailto:info@z-management.ch'"
-              class="mt-4 inline-flex items-center justify-center rounded-xl bg-brand-offwhite px-5 py-3 font-dm text-[18px] text-[#242424] transition-colors hover:bg-white"
+              class="mt-4 inline-flex items-center justify-center rounded-xl bg-brand-offwhite py-3 pl-3 pr-5 font-dm text-[18px] text-[#242424] transition-colors hover:bg-white"
             >
               {{
                 t(
@@ -109,14 +115,15 @@
               }}
             </a>
           </div>
-
-          <p
-            v-if="p.lead"
-            class="max-w-[624px] font-sans text-[18px] font-medium leading-relaxed text-white lg:text-left"
-          >
-            {{ t(p.lead) }}
-          </p>
         </div>
+
+        <!-- Lead paragraph: below image on mobile, bottom-right on desktop -->
+        <p
+          v-if="p.lead"
+          class="font-sans text-[18px] font-medium leading-relaxed text-brand-darkgreen lg:pointer-events-auto lg:absolute lg:bottom-[48px] lg:right-[7%] lg:max-w-[624px] lg:text-left lg:text-white"
+        >
+          {{ t(p.lead) }}
+        </p>
       </div>
 
       <div class="mt-5 flex justify-end gap-3">
@@ -132,7 +139,9 @@
               : 'hover:text-brand-orange'
           "
         >
-          <span class="text-xs font-bold">{{ s.name[0] }}</span>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+            <path :d="s.path" />
+          </svg>
         </a>
       </div>
     </div>

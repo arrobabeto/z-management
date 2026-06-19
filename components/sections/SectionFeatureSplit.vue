@@ -10,9 +10,13 @@
     items: I18nString[]
     image: string
     imagePosition?: "left" | "right"
+    listIcon?: string
   }>()
 
   const t = useTranslate()
+
+  const listIconSrc =
+    p.listIcon ?? "/lieferantenmanagement/icon-list-bullet.svg"
 </script>
 
 <template>
@@ -58,7 +62,13 @@
             :key="i"
             class="flex items-start gap-4 font-sans text-[18px] font-medium leading-[1.26] text-black"
           >
-            <span class="mt-2 size-2 shrink-0 rounded-full bg-brand-green" />
+            <NuxtImg
+              :src="listIconSrc"
+              alt=""
+              class="mt-0.5 size-[22px] shrink-0"
+              width="22"
+              height="22"
+            />
             <span>{{ t(item) }}</span>
           </li>
         </ul>

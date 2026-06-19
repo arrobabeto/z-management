@@ -1,15 +1,17 @@
 import { createError, defineEventHandler, readBody } from "h3"
+import { getOrbitypeConfig, orbitypeSqlHeaders } from "~/server/utils/orbitype"
 
 export default defineEventHandler(async (event) => {
   const bindings = await readBody(event)
   await validate(bindings)
+  const orbitype = getOrbitypeConfig(event)
 
   let sql = "INSERT INTO comments (text, post_id)"
   sql += " VALUES (:text, :post_id) RETURNING *"
 
-  const rows: any[] = await $fetch(import.meta.env.ORBITYPE_API_SQL_URL, {
+  const rows: any[] = await $fetch(orbitype.sqlUrl, {
     method: "POST",
-    headers: { "X-API-KEY": import.meta.env.ORBITYPE_API_SQL_KEY },
+    headers: orbitypeSqlHeaders(orbitype),
     body: { sql, bindings },
   })
   return rows[0]

@@ -1,7 +1,13 @@
 import { defineEventHandler, getQuery } from "h3"
+import {
+  getOrbitypeConfig,
+  hasOrbitypeSqlConfigured,
+  orbitypeSqlHeaders,
+} from "~/server/utils/orbitype"
 
 export default defineEventHandler(async (event) => {
   const bindings = getQuery(event)
+  const orbitype = getOrbitypeConfig(event)
   const orderBy = String(bindings.orderBy ?? "created_at")
   const allowedOrderBy = new Set(["created_at", "updated_at", "id"])
   const safeOrderBy = allowedOrderBy.has(orderBy) ? orderBy : "created_at"
@@ -14,22 +20,18 @@ export default defineEventHandler(async (event) => {
   if (bindings.status) where.push(`"status"->>'value' = :status`)
   if (where.length > 0) sql += ` WHERE ${where.join(" AND ")}`
 
-  // Keep ordering deterministic so offset pagination does not repeat rows.
   sql += ` ORDER BY ${safeOrderBy} ${sortDirection}, id ${sortDirection}`
   if (bindings.limit) sql += " LIMIT :limit"
   if (bindings.offset) sql += " OFFSET :offset"
 
-  if (
-    !import.meta.env.ORBITYPE_API_SQL_URL ||
-    !import.meta.env.ORBITYPE_API_SQL_KEY
-  ) {
+  if (!hasOrbitypeSqlConfigured(orbitype)) {
     return bindings.id ? null : []
   }
 
   try {
-    const rows: any = await $fetch(import.meta.env.ORBITYPE_API_SQL_URL, {
+    const rows: any = await $fetch(orbitype.sqlUrl, {
       method: "POST",
-      headers: { "X-API-KEY": import.meta.env.ORBITYPE_API_SQL_KEY },
+      headers: orbitypeSqlHeaders(orbitype),
       body: { sql, bindings },
     })
     return bindings.id ? rows[0] : rows
