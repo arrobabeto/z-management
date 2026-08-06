@@ -19,7 +19,10 @@
 </script>
 
 <template>
-  <section id="ablauf" class="bg-white px-6 py-16 lg:px-[120px] lg:py-[64px]">
+  <section
+    id="ablauf-der-zusammenarbeit"
+    class="bg-white px-6 py-16 lg:px-[120px] lg:py-[64px]"
+  >
     <div
       class="relative mx-auto max-w-[1273px] overflow-hidden rounded-[40px] px-6 pb-24 pt-28 lg:px-[84px] lg:pb-[114px] lg:pt-[148px]"
     >

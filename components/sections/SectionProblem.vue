@@ -2,6 +2,7 @@
   import SafeHtml from "~/components/common/SafeHtml.vue"
   import BrandButton from "~/components/generic/BrandButton.vue"
   import VimeoEmbed from "~/components/sections/_VimeoEmbed.vue"
+  import { CALENDLY_URL } from "~/constants/siteLinks"
   import { useTranslate } from "~/composables/useTranslate"
   import type { I18nString } from "~/types/util/I18nString"
 
@@ -57,7 +58,7 @@
                 en: 'Free initial consultation',
               }
             "
-            :href="p.ctaUrl || '#faq'"
+            :href="p.ctaUrl || CALENDLY_URL"
           />
         </div>
       </div>

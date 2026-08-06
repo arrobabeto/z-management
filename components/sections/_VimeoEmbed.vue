@@ -51,17 +51,22 @@
 </script>
 
 <template>
-  <div
-    ref="root"
-    class="aspect-[472/350] w-full max-w-[472px] shrink-0 overflow-hidden rounded-[20px] bg-brand-darkgreen/10"
-  >
-    <iframe
-      v-if="isVisible && embedSrc"
-      :src="embedSrc"
-      :title="p.title || 'Video'"
-      class="size-full border-0"
-      allow="fullscreen; picture-in-picture"
-      loading="lazy"
-    />
+  <!--
+    Padding-bottom aspect lock: reliable inside flex rows where aspect-video
+    can collapse short/wide and leave gray pillarboxing beside the video.
+  -->
+  <div ref="root" class="w-full max-w-[472px] shrink-0">
+    <div
+      class="relative w-full overflow-hidden rounded-[20px] bg-brand-darkgreen/10 pt-[56.25%]"
+    >
+      <iframe
+        v-if="isVisible && embedSrc"
+        :src="embedSrc"
+        :title="p.title || 'Video'"
+        class="absolute inset-0 size-full border-0"
+        allow="fullscreen; picture-in-picture"
+        loading="lazy"
+      />
+    </div>
   </div>
 </template>
