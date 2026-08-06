@@ -31,7 +31,7 @@
     </time>
 
     <h3
-      class="font-sans text-[20px] font-bold leading-snug text-[#032934] sm:text-[24px]"
+      class="break-words font-sans text-[18px] font-bold leading-snug text-[#032934] sm:text-[22px]"
     >
       <NuxtLinkLocale :to="postUrl" class="hover:text-brand-green">
         {{ t(p.post.title as any) }}
@@ -46,7 +46,7 @@
 
     <NuxtLinkLocale
       :to="postUrl"
-      class="inline-flex w-fit items-center justify-center rounded-[30px] bg-brand-orange px-14 py-4 font-sans text-[16px] font-semibold text-white transition-colors hover:bg-brand-yellow"
+      class="inline-flex w-fit max-w-full items-center justify-center rounded-[30px] bg-brand-orange px-6 py-3.5 text-center font-sans text-[16px] font-semibold leading-tight text-white transition-colors hover:bg-brand-yellow sm:px-14 sm:py-4"
     >
       {{ t("learn_more") }}
     </NuxtLinkLocale>

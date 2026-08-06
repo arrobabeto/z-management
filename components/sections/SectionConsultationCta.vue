@@ -17,10 +17,10 @@
 </script>
 
 <template>
-  <section class="bg-white px-6 py-16 lg:px-[120px] lg:py-[64px]">
+  <section class="bg-white px-4 py-16 sm:px-6 lg:px-[120px] lg:py-[64px]">
     <div
-      class="mx-auto flex max-w-[1273px] flex-col items-center gap-6 px-6 py-16 text-center lg:px-5 lg:py-[60px]"
-      :class="p.roundedClass || 'rounded-[40px]'"
+      class="mx-auto flex max-w-[1273px] flex-col items-center gap-6 px-5 py-16 text-center sm:px-6 lg:px-5 lg:py-[60px]"
+      :class="p.roundedClass || 'rounded-[24px] sm:rounded-[40px]'"
       style="
         background:
           linear-gradient(90deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
@@ -34,7 +34,7 @@
       "
     >
       <h2
-        class="max-w-4xl font-sans text-[28px] font-bold leading-tight text-white lg:text-[36px]"
+        class="max-w-4xl font-sans text-[24px] font-bold leading-tight text-white sm:text-[28px] lg:text-[36px]"
       >
         {{ t(p.title) }}
       </h2>

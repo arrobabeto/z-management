@@ -26,7 +26,7 @@
 <template>
   <a
     :href="p.href"
-    class="inline-flex items-center justify-center rounded-[30px] px-14 py-4 font-sans text-[16px] font-medium leading-none transition-colors"
+    class="inline-flex max-w-full items-center justify-center rounded-[30px] px-6 py-3.5 text-center font-sans text-[16px] font-medium leading-tight transition-colors sm:px-14 sm:py-4"
     :class="
       p.variant === 'primary'
         ? 'bg-brand-orange text-white hover:bg-brand-yellow'

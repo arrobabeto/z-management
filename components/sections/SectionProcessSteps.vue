@@ -24,7 +24,7 @@
     class="bg-white px-6 py-16 lg:px-[120px] lg:py-[64px]"
   >
     <div
-      class="relative mx-auto max-w-[1273px] overflow-hidden rounded-[40px] px-6 pb-24 pt-28 lg:px-[84px] lg:pb-[114px] lg:pt-[148px]"
+      class="relative mx-auto max-w-[1273px] overflow-hidden rounded-[40px] px-6 pb-24 pt-16 sm:pt-28 lg:px-[84px] lg:pb-[114px] lg:pt-[148px]"
     >
       <NuxtImg
         :src="p.backgroundImage || '/homepage/process-bg.jpg'"
@@ -35,10 +35,10 @@
       />
       <div class="absolute inset-0 bg-black/20" />
 
-      <div class="relative flex flex-col gap-24 lg:gap-40">
+      <div class="relative flex flex-col gap-16 sm:gap-24 lg:gap-40">
         <div class="max-w-[640px]">
           <h2
-            class="font-sans text-[32px] font-bold leading-tight text-white lg:text-[44px]"
+            class="font-sans text-[26px] font-bold leading-tight text-white sm:text-[32px] lg:text-[44px]"
           >
             {{ t(p.title) }}
           </h2>
@@ -55,7 +55,7 @@
           <article
             v-for="(s, i) of p.steps"
             :key="i"
-            class="flex min-h-[356px] flex-col gap-2 rounded-2xl p-5"
+            class="flex flex-col gap-2 rounded-2xl p-5 sm:min-h-[356px]"
             :class="
               (s.variant || (i % 2 === 0 ? 'green' : 'white')) === 'green'
                 ? 'bg-brand-green text-white'
@@ -63,7 +63,7 @@
             "
           >
             <p
-              class="font-sans text-[64px] font-bold leading-none"
+              class="font-sans text-[44px] font-bold leading-none sm:text-[64px]"
               :class="
                 (s.variant || (i % 2 === 0 ? 'green' : 'white')) === 'green'
                   ? 'text-brand-offwhite'

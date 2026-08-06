@@ -55,7 +55,7 @@
     Padding-bottom aspect lock: reliable inside flex rows where aspect-video
     can collapse short/wide and leave gray pillarboxing beside the video.
   -->
-  <div ref="root" class="w-full max-w-[472px] shrink-0">
+  <div ref="root" class="w-full min-w-0 max-w-[472px]">
     <div
       class="relative w-full overflow-hidden rounded-[20px] bg-brand-darkgreen/10 pt-[56.25%]"
     >

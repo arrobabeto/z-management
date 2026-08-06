@@ -14,12 +14,12 @@
   <section class="bg-white px-6 pb-16 pt-0 lg:px-[120px]">
     <div class="mx-auto max-w-[1034px] space-y-6 text-center">
       <h1
-        class="font-sans text-[32px] font-bold leading-tight text-black lg:text-[44px]"
+        class="break-words font-sans text-[26px] font-bold leading-tight text-black sm:text-[32px] lg:text-[44px]"
       >
         {{ t(p.title) }}
       </h1>
       <p
-        class="font-sans text-[20px] font-semibold leading-tight text-black lg:text-[24px]"
+        class="break-words font-sans text-[20px] font-semibold leading-tight text-black lg:text-[24px]"
       >
         {{ t(p.subtitle) }}
       </p>

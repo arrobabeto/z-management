@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { ref } from "vue"
+  import { computed, ref } from "vue"
   import SafeHtml from "~/components/common/SafeHtml.vue"
   import { useTranslate } from "~/composables/useTranslate"
   import type { I18nString } from "~/types/util/I18nString"
@@ -18,26 +18,39 @@
   function toggle(i: number) {
     openIndex.value = openIndex.value === i ? -1 : i
   }
+
+  const eyebrowLabel = computed(() => {
+    const fallback = {
+      de: "Häufig gestellte Fragen",
+      en: "Frequently Asked Questions",
+    }
+    if (!p.eyebrow) return t(fallback)
+    const value = t(p.eyebrow)
+    if (/frequently\s+asked\s+questions/i.test(value)) return t(fallback)
+    return value
+  })
 </script>
 
 <template>
-  <section id="faq" class="bg-white px-6 py-16 lg:px-[230px] lg:py-20">
+  <section
+    id="faq"
+    class="bg-white px-6 pb-16 pt-8 sm:pt-12 lg:px-[230px] lg:py-20"
+  >
     <div class="mx-auto max-w-[1053px]">
       <div class="mx-auto max-w-[840px] text-center">
         <p
-          v-if="p.eyebrow"
           class="font-sans text-[14px] font-extrabold uppercase tracking-[0.08em] text-[#121311]"
         >
-          {{ t(p.eyebrow) }}
+          {{ eyebrowLabel }}
         </p>
         <h2
-          class="mt-8 font-sans text-[32px] font-bold leading-tight text-black lg:text-[44px]"
+          class="mt-4 font-sans text-[26px] font-bold leading-tight text-black sm:mt-8 sm:text-[32px] lg:text-[44px]"
         >
           {{ t(p.title) }}
         </h2>
       </div>
 
-      <div class="mt-16 flex flex-col gap-6">
+      <div class="mt-10 flex flex-col gap-6 sm:mt-16">
         <article
           v-for="(item, i) of p.items"
           :key="i"
@@ -60,7 +73,7 @@
               </p>
               <div
                 v-if="openIndex === i"
-                class="mt-4 font-sans text-[18px] font-medium leading-relaxed text-black"
+                class="mt-4 font-sans text-[18px] font-medium leading-relaxed text-black [&_li]:my-0.5 [&_ul+p]:mt-5 [&_ul]:my-0 [&_ul]:list-disc [&_ul]:pl-6"
               >
                 <SafeHtml :html="t(item.answer)" />
               </div>

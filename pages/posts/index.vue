@@ -78,31 +78,34 @@
 
     <BlogFeatured :post="featured" :excerpt="excerpt(featured)" />
 
-    <div class="mx-auto max-w-[1273px] px-6 py-16 lg:px-[120px]">
+    <div class="mx-auto max-w-[1273px] px-6 py-6 lg:px-[120px] lg:py-16">
       <hr class="border-[#032934]/20" />
     </div>
 
-    <section class="bg-white px-6 py-16 lg:px-[120px]">
+    <section class="bg-white px-6 pb-16 pt-6 lg:px-[120px] lg:py-16">
       <div class="mx-auto max-w-[1273px]">
         <h2
-          class="font-sans text-[28px] font-bold text-brand-darkgreen sm:text-[36px]"
+          class="font-sans text-[24px] font-bold text-brand-darkgreen sm:text-[32px] lg:text-[36px]"
         >
           {{ t({ de: "Neueste Beiträge", en: "Latest posts" }) }}
         </h2>
 
-        <div class="mt-16 grid gap-16 lg:grid-cols-3 lg:gap-x-6 lg:gap-y-16">
+        <div
+          class="mt-8 grid min-w-0 gap-12 lg:mt-16 lg:grid-cols-3 lg:gap-x-6 lg:gap-y-16"
+        >
           <BlogCard
             v-for="p of latest"
             :key="p.id"
             :post="p"
             :excerpt="excerpt(p)"
+            class="min-w-0"
           />
         </div>
 
         <div v-if="hasMore" class="mt-16 flex justify-center">
           <button
             type="button"
-            class="blog-load-more inline-flex items-center justify-center rounded-[30px] bg-brand-orange px-14 py-4 font-sans text-[16px] font-semibold text-white transition-colors hover:bg-brand-yellow disabled:cursor-not-allowed disabled:opacity-60"
+            class="blog-load-more inline-flex max-w-full items-center justify-center rounded-[30px] bg-brand-orange px-6 py-3.5 text-center font-sans text-[16px] font-semibold leading-tight text-white transition-colors hover:bg-brand-yellow disabled:cursor-not-allowed disabled:opacity-60 sm:px-14 sm:py-4"
             :disabled="loading"
             @click="loadMore"
           >

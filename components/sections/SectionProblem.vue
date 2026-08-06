@@ -33,9 +33,9 @@
         height="196"
       />
 
-      <div class="w-full max-w-[503px]">
+      <div class="w-full min-w-0 max-w-[503px]">
         <h2
-          class="font-sans text-[28px] font-semibold leading-tight text-brand-darkgreen lg:text-[36px]"
+          class="font-sans text-[24px] font-semibold leading-tight text-brand-darkgreen sm:text-[28px] lg:text-[36px]"
         >
           {{ t(p.title) }}
         </h2>
@@ -68,7 +68,7 @@
         v-else
         :src="p.illustrationImage || '/homepage/problem-illustration.png'"
         alt=""
-        class="w-full max-w-[472px] shrink-0"
+        class="w-full min-w-0 max-w-[472px]"
         width="472"
         height="350"
       />

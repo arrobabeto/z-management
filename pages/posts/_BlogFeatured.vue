@@ -16,18 +16,18 @@
 
 <template>
   <section
-    class="bg-white px-6 pb-16 pt-16 lg:px-[120px] lg:pb-[64px] lg:pt-[64px]"
+    class="bg-white px-6 pb-8 pt-8 lg:px-[120px] lg:pb-[64px] lg:pt-[64px]"
   >
     <div
       class="mx-auto flex max-w-[1273px] flex-col items-center gap-8 lg:flex-row lg:gap-[35px]"
     >
-      <div class="flex w-full flex-col gap-6 lg:w-[606px] lg:gap-[25px]">
+      <div class="flex w-full min-w-0 flex-col gap-6 lg:w-1/2 lg:gap-[25px]">
         <div class="space-y-2">
           <time class="block font-sans text-[16px] text-[#032934]">
             {{ dt.toBlogDate(p.post.created_at) }}
           </time>
           <h2
-            class="font-sans text-[32px] font-bold leading-tight text-brand-darkgreen sm:text-[40px] lg:text-[50px]"
+            class="font-sans text-[26px] font-bold leading-tight text-brand-darkgreen sm:text-[34px] lg:text-[40px]"
           >
             {{ t(p.post.title as any) }}
           </h2>
@@ -41,13 +41,16 @@
 
         <NuxtLinkLocale
           :to="postUrl"
-          class="inline-flex w-fit items-center justify-center rounded-[30px] bg-brand-orange px-14 py-4 font-sans text-[16px] font-semibold text-white transition-colors hover:bg-brand-yellow"
+          class="inline-flex w-fit max-w-full items-center justify-center rounded-[30px] bg-brand-orange px-6 py-3.5 text-center font-sans text-[16px] font-semibold leading-tight text-white transition-colors hover:bg-brand-yellow sm:px-14 sm:py-4"
         >
           {{ t("learn_more") }}
         </NuxtLinkLocale>
       </div>
 
-      <NuxtLinkLocale :to="postUrl" class="block w-full shrink-0 lg:w-[631px]">
+      <NuxtLinkLocale
+        :to="postUrl"
+        class="block w-full min-w-0 shrink-0 lg:w-1/2"
+      >
         <NuxtImg
           :src="p.post.img"
           :alt="t(p.post.title as any)"

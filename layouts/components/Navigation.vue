@@ -25,7 +25,7 @@
       </NuxtLinkLocale>
 
       <div
-        class="hidden items-center gap-4 font-sans text-[16px] font-medium text-brand-darkblue lg:flex xl:gap-5"
+        class="hidden items-center gap-4 font-sans text-[16px] font-medium text-brand-darkblue xl:flex xl:gap-5"
       >
         <NuxtLinkLocale
           v-for="l of links"
@@ -39,7 +39,7 @@
 
       <button
         type="button"
-        class="flex h-10 w-10 items-center justify-center rounded-lg text-brand-darkgreen lg:hidden"
+        class="flex h-10 w-10 items-center justify-center rounded-lg text-brand-darkgreen xl:hidden"
         :aria-expanded="isOpen"
         aria-label="Menü"
         @click="isOpen = !isOpen"
@@ -73,7 +73,7 @@
 
     <div
       v-if="isOpen"
-      class="border-t border-black/5 bg-white px-6 py-4 lg:hidden"
+      class="border-t border-black/5 bg-white px-6 py-4 xl:hidden"
     >
       <div
         class="flex flex-col gap-3 font-sans text-[16px] font-medium text-brand-darkblue"

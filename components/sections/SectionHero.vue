@@ -23,11 +23,23 @@
 <template>
   <section id="risikomanagement" class="bg-white px-6 pb-8 pt-0 lg:px-[120px]">
     <div class="relative mx-auto max-w-[1273px]">
-      <div class="relative overflow-hidden rounded-[30px]">
+      <div
+        class="relative h-[420px] overflow-hidden rounded-[30px] sm:h-[520px] lg:h-[633px]"
+      >
+        <!-- Mobile-only crop: factory close-up, centered. -->
+        <NuxtImg
+          :src="'/homepage/hero-bg-mobile.png'"
+          alt=""
+          class="absolute inset-0 size-full object-cover object-center lg:hidden"
+          style="object-fit: cover; object-position: center center"
+          width="722"
+          height="611"
+        />
+        <!-- Desktop hero with baked-in contact-card notch. -->
         <NuxtImg
           :src="p.heroImage || '/homepage/hero-bg.jpg'"
           alt=""
-          class="h-[420px] w-full object-cover lg:h-[633px]"
+          class="absolute inset-0 hidden size-full object-cover object-center lg:block"
           width="1273"
           height="633"
         />
@@ -38,7 +50,7 @@
         />
 
         <div
-          class="absolute inset-x-0 top-[90px] flex flex-col items-center gap-9 px-6 text-center lg:top-[134px]"
+          class="absolute inset-x-0 top-0 flex h-full flex-col items-center justify-center gap-4 px-6 text-center sm:gap-5 lg:inset-x-0 lg:top-[134px] lg:h-auto lg:justify-start lg:gap-9"
         >
           <NuxtImg
             :src="p.logoImage || '/homepage/zamenta-logo-white.png'"
@@ -48,7 +60,7 @@
             height="47"
           />
           <h1
-            class="max-w-[747px] font-sans text-[32px] font-bold leading-tight text-white lg:text-[44px]"
+            class="max-w-[747px] font-sans text-[26px] font-bold leading-tight text-white sm:text-[32px] lg:text-[44px]"
           >
             {{ t(p.title) }}
           </h1>
@@ -67,16 +79,18 @@
       <!-- Contact card + lead: stacked below the image on mobile, anchored to the
            image corners on desktop (card in a white notch, lead bottom-right). -->
       <div
-        class="mt-6 flex flex-col gap-6 lg:pointer-events-none lg:absolute lg:left-0 lg:top-0 lg:mt-0 lg:block lg:h-[633px] lg:w-full"
+        class="mt-4 flex flex-col gap-5 lg:pointer-events-none lg:absolute lg:left-0 lg:top-0 lg:mt-0 lg:block lg:h-[633px] lg:w-full"
       >
         <!-- Contact card: flush in the bottom-left corner, sitting in the
              white notch that is baked into the hero image. -->
         <div
           class="lg:pointer-events-auto lg:absolute lg:bottom-0 lg:left-0 lg:p-3.5"
         >
-          <div class="w-full rounded-[30px] bg-brand-green p-5 lg:w-[481px]">
+          <div
+            class="flex w-full flex-col items-center rounded-[30px] bg-brand-green p-5 text-center lg:w-[481px] lg:items-start lg:text-left"
+          >
             <p
-              class="font-sans text-[24px] font-semibold leading-tight text-brand-offwhite"
+              class="font-sans text-[22px] font-semibold leading-tight text-brand-offwhite sm:text-[24px]"
             >
               {{
                 t(
@@ -88,7 +102,7 @@
               }}
             </p>
             <p
-              class="mt-2 font-sans text-[18px] font-medium leading-relaxed text-[#d4d4d4]"
+              class="mt-2 font-sans text-[16px] font-medium leading-relaxed text-[#d4d4d4] sm:text-[18px]"
             >
               {{
                 t(
@@ -101,7 +115,7 @@
             </p>
             <a
               :href="p.contactUrl || CONTACT_MAILTO"
-              class="mt-4 inline-flex items-center justify-center rounded-xl bg-brand-offwhite py-3 pl-3 pr-5 font-dm text-[18px] text-[#242424] transition-colors hover:bg-white"
+              class="mt-4 inline-flex items-center justify-center rounded-xl bg-brand-offwhite py-3 pl-3 pr-5 font-dm text-[16px] text-[#242424] transition-colors hover:bg-white sm:text-[18px]"
             >
               {{
                 t(
@@ -118,7 +132,7 @@
         <!-- Lead paragraph: below image on mobile, bottom-right on desktop -->
         <p
           v-if="p.lead"
-          class="font-sans text-[18px] font-medium leading-relaxed text-brand-darkgreen lg:pointer-events-auto lg:absolute lg:bottom-[48px] lg:right-[7%] lg:max-w-[624px] lg:text-left lg:text-white"
+          class="font-sans text-[16px] font-medium leading-relaxed text-brand-darkgreen sm:text-[18px] lg:pointer-events-auto lg:absolute lg:bottom-[48px] lg:right-[7%] lg:max-w-[624px] lg:text-left lg:text-[18px] lg:text-white"
         >
           {{ t(p.lead) }}
         </p>

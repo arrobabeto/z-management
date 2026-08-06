@@ -40,10 +40,10 @@
     class="bg-white px-6 py-16 lg:px-[120px] lg:py-[64px]"
   >
     <div
-      class="mx-auto max-w-[1273px] rounded-[60px] bg-brand-darkgreen px-6 py-14 lg:px-16 lg:py-[60px]"
+      class="mx-auto max-w-[1273px] rounded-[32px] bg-brand-darkgreen px-6 py-14 sm:rounded-[60px] lg:px-16 lg:py-[60px]"
     >
       <h2
-        class="mx-auto max-w-[758px] text-center font-sans text-[32px] font-semibold leading-[1.16] tracking-[-0.02em] text-white lg:text-[44px]"
+        class="mx-auto max-w-[758px] text-center font-sans text-[26px] font-semibold leading-[1.16] tracking-[-0.02em] text-white sm:text-[32px] lg:text-[44px]"
       >
         {{ t(p.title) }}
         <br />
@@ -54,23 +54,27 @@
 
       <div v-if="current" class="mt-16 flex flex-col items-center gap-16">
         <div
-          class="flex w-full max-w-[1140px] items-center justify-between gap-6"
+          class="flex w-full max-w-[1140px] items-center justify-center gap-6 lg:justify-between"
         >
           <button
             v-if="hasMultiple"
             type="button"
-            class="flex h-11 w-[110px] shrink-0 items-center justify-center rounded-[60px] border border-white text-white transition-colors hover:bg-white/10"
+            class="hidden h-11 w-[140px] shrink-0 items-center justify-center rounded-[60px] border border-white px-[15px] text-white transition-colors hover:bg-white/10 lg:flex"
             :aria-label="t({ de: 'Vorheriges Zitat', en: 'Previous quote' })"
             @click="prev"
           >
             ←
           </button>
-          <div v-else class="w-[110px] shrink-0" aria-hidden="true" />
+          <div
+            v-else
+            class="hidden w-[140px] shrink-0 lg:block"
+            aria-hidden="true"
+          />
 
           <Transition name="quote-fade" mode="out-in">
             <blockquote
               :key="index"
-              class="max-w-[655px] text-center font-sans text-[24px] font-normal leading-tight text-white lg:text-[36px]"
+              class="max-w-[655px] text-center font-sans text-[20px] font-normal leading-tight text-white sm:text-[24px] lg:text-[36px]"
             >
               {{ t(current.text) }}
             </blockquote>
@@ -79,13 +83,17 @@
           <button
             v-if="hasMultiple"
             type="button"
-            class="flex h-11 w-[110px] shrink-0 items-center justify-center rounded-[60px] bg-white text-brand-darkgreen transition-colors hover:bg-brand-offwhite"
+            class="hidden h-11 w-[140px] shrink-0 items-center justify-center rounded-[60px] bg-white px-[15px] text-brand-darkgreen transition-colors hover:bg-brand-offwhite lg:flex"
             :aria-label="t({ de: 'Nächstes Zitat', en: 'Next quote' })"
             @click="next"
           >
             →
           </button>
-          <div v-else class="w-[110px] shrink-0" aria-hidden="true" />
+          <div
+            v-else
+            class="hidden w-[140px] shrink-0 lg:block"
+            aria-hidden="true"
+          />
         </div>
 
         <Transition name="quote-fade" mode="out-in">
@@ -105,15 +113,31 @@
           :aria-label="t({ de: 'Zitat auswählen', en: 'Select quote' })"
         >
           <button
+            type="button"
+            class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white text-white transition-colors hover:bg-white/10 lg:hidden"
+            :aria-label="t({ de: 'Vorheriges Zitat', en: 'Previous quote' })"
+            @click="prev"
+          >
+            ←
+          </button>
+          <button
             v-for="(_, i) of quotes"
             :key="i"
             type="button"
-            class="size-[21px] shrink-0 rounded-full transition-colors"
+            class="quote-dot size-[21px] shrink-0 rounded-full transition-colors"
             :class="i === index ? 'bg-white' : 'bg-white/30'"
             :aria-label="t({ de: `Zitat ${i + 1}`, en: `Quote ${i + 1}` })"
             :aria-current="i === index ? 'page' : undefined"
             @click="goTo(i)"
           />
+          <button
+            type="button"
+            class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white text-brand-darkgreen transition-colors hover:bg-brand-offwhite lg:hidden"
+            :aria-label="t({ de: 'Nächstes Zitat', en: 'Next quote' })"
+            @click="next"
+          >
+            →
+          </button>
         </nav>
       </div>
     </div>
@@ -131,7 +155,7 @@
     opacity: 0;
   }
 
-  .quote-dots button {
+  .quote-dots .quote-dot {
     width: 21px;
     flex: none;
   }

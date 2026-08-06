@@ -24,9 +24,9 @@
 </script>
 
 <template>
-  <section class="bg-white px-6 py-16 lg:px-[120px]">
+  <section class="bg-white px-4 py-16 sm:px-6 lg:px-[120px]">
     <div
-      class="mx-auto flex max-w-[1272px] flex-col gap-16 rounded-[70px] px-8 py-16 lg:gap-[124px] lg:px-[100px] lg:py-20"
+      class="mx-auto flex max-w-[1272px] flex-col gap-16 rounded-[32px] px-5 py-16 sm:rounded-[70px] sm:px-8 lg:gap-[124px] lg:px-[100px] lg:py-20"
       style="
         background:
           linear-gradient(90deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
@@ -41,7 +41,7 @@
     >
       <div class="max-w-[945px] space-y-6 text-white">
         <h2
-          class="font-sans text-[28px] font-semibold leading-[1.2] lg:text-[36px]"
+          class="font-sans text-[24px] font-semibold leading-[1.2] sm:text-[28px] lg:text-[36px]"
         >
           {{ t(p.title) }}
         </h2>
@@ -53,27 +53,29 @@
       </div>
 
       <div
-        class="grid gap-8 lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:gap-8"
+        class="grid gap-8 xl:grid-cols-[1fr_auto_1fr] xl:items-center xl:gap-8"
       >
-        <div class="flex flex-col gap-12 text-right text-white lg:gap-[185px]">
+        <div
+          class="flex min-w-0 flex-col gap-12 text-left text-white lg:gap-[185px] xl:text-right"
+        >
           <div v-for="b of leftBlocks" :key="b.number" class="space-y-2">
             <p
-              class="font-sans text-[28px] font-normal leading-tight lg:text-[36px]"
+              class="break-words font-sans text-[24px] font-normal leading-tight sm:text-[28px] lg:text-[36px]"
             >
-              <span class="text-[40px] font-bold lg:text-[44px]">
+              <span class="text-[30px] font-bold sm:text-[40px] lg:text-[44px]">
                 {{ b.number }}
               </span>
               {{ t(b.title) }}
             </p>
             <p
-              class="ml-auto max-w-[428px] font-sans text-[16px] font-medium leading-[1.26] lg:text-[18px]"
+              class="max-w-[428px] font-sans text-[16px] font-medium leading-[1.26] lg:text-[18px] xl:ml-auto"
             >
               {{ t(b.description) }}
             </p>
           </div>
         </div>
 
-        <div class="hidden flex-col items-center gap-4 lg:flex">
+        <div class="hidden flex-col items-center gap-4 xl:flex">
           <div
             v-for="b of p.blocks"
             :key="`dot-${b.number}`"
@@ -87,12 +89,14 @@
           </div>
         </div>
 
-        <div class="flex flex-col gap-12 text-left text-white lg:gap-[201px]">
+        <div
+          class="flex min-w-0 flex-col gap-12 text-left text-white lg:gap-[201px]"
+        >
           <div v-for="b of rightBlocks" :key="b.number" class="space-y-2">
             <p
-              class="font-sans text-[28px] font-normal leading-tight lg:text-[36px]"
+              class="break-words font-sans text-[24px] font-normal leading-tight sm:text-[28px] lg:text-[36px]"
             >
-              <span class="text-[40px] font-bold lg:text-[44px]">
+              <span class="text-[30px] font-bold sm:text-[40px] lg:text-[44px]">
                 {{ b.number }}
               </span>
               {{ t(b.title) }}
