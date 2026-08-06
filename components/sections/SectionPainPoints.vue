@@ -15,9 +15,9 @@
 </script>
 
 <template>
-  <section class="bg-white px-6 py-16 lg:px-[120px] lg:py-[64px]">
+  <section class="bg-white px-4 py-16 sm:px-6 lg:px-[120px] lg:py-[64px]">
     <div
-      class="mx-auto flex max-w-[1273px] flex-col items-center gap-10 rounded-[40px] px-6 py-12 lg:flex-row lg:gap-[113px] lg:px-[120px] lg:py-20"
+      class="mx-auto flex max-w-[1273px] flex-col items-center gap-10 rounded-[24px] px-5 py-12 sm:rounded-[40px] sm:px-6 lg:flex-row lg:gap-[113px] lg:px-[120px] lg:py-20"
       style="
         background:
           linear-gradient(90deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
@@ -30,7 +30,9 @@
           );
       "
     >
-      <div class="w-full max-w-[451px]">
+      <div
+        class="flex w-full max-w-[451px] flex-col items-center text-center lg:items-start lg:text-left"
+      >
         <NuxtImg
           :src="p.logoImage || '/homepage/zamenta-logo-white.png'"
           alt="ZAMENTA"
@@ -39,7 +41,7 @@
           height="47"
         />
         <h2
-          class="mt-8 font-sans text-[28px] font-semibold leading-tight text-white lg:text-[36px]"
+          class="mt-8 font-sans text-[24px] font-semibold leading-tight text-white sm:text-[28px] lg:text-[36px]"
         >
           {{ t(p.title) }}
         </h2>
@@ -57,11 +59,11 @@
             height="44"
           />
         </div>
-        <div class="flex w-full flex-col gap-7 text-center">
+        <div class="flex w-full flex-col gap-5 text-center sm:gap-7">
           <p
             v-for="(point, i) of p.points"
             :key="i"
-            class="font-sans text-[28px] font-bold leading-tight text-white lg:text-[36px]"
+            class="font-sans text-[18px] font-medium leading-tight text-white sm:text-[28px] sm:font-bold lg:text-[36px]"
           >
             {{ t(point.text) }}
           </p>

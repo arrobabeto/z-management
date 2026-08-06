@@ -19,9 +19,9 @@
 </script>
 
 <template>
-  <section class="bg-white px-6 py-16 lg:px-[120px]">
+  <section class="bg-white px-4 py-16 sm:px-6 lg:px-[120px]">
     <div
-      class="mx-auto flex max-w-[1273px] flex-col items-center gap-12 rounded-[80px] bg-brand-green px-6 py-16 text-center lg:gap-[49px] lg:py-[70px]"
+      class="mx-auto flex max-w-[1273px] flex-col items-center gap-12 rounded-[32px] bg-brand-green px-5 py-16 text-center sm:rounded-[80px] sm:px-6 lg:gap-[49px] lg:py-[70px]"
     >
       <h2 class="font-sans text-[28px] font-bold text-white sm:text-[36px]">
         {{ t(p.title) }}
@@ -34,7 +34,7 @@
       </p>
 
       <div
-        class="relative aspect-[1045/380] w-full max-w-[1045px] overflow-hidden rounded-[73px]"
+        class="relative aspect-[4/3] w-full max-w-[1045px] overflow-hidden rounded-[24px] sm:aspect-[1045/380] sm:rounded-[73px]"
       >
         <iframe
           :src="p.mapEmbedUrl || defaultMapEmbedUrl"

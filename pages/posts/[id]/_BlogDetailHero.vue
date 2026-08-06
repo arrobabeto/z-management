@@ -21,7 +21,7 @@
         height="489"
       />
       <h1
-        class="max-w-[852px] font-sans text-[32px] font-bold leading-tight text-brand-darkgreen sm:text-[40px] lg:text-[50px]"
+        class="max-w-[852px] break-words font-sans text-[26px] font-bold leading-tight text-brand-darkgreen sm:text-[36px] lg:text-[44px]"
       >
         {{ t(p.title) }}
       </h1>

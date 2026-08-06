@@ -28,7 +28,7 @@
     <div class="mx-auto flex max-w-[1284px] flex-col gap-10">
       <div class="flex flex-col gap-8 lg:flex-row lg:gap-20">
         <h2
-          class="flex-1 font-sans text-[28px] font-semibold leading-[1.2] text-black lg:text-[36px]"
+          class="flex-1 font-sans text-[24px] font-semibold leading-[1.2] text-black sm:text-[28px] lg:text-[36px]"
         >
           {{ t(p.title) }}
         </h2>

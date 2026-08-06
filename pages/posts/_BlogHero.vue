@@ -15,14 +15,15 @@
   <section class="bg-white px-6 pb-[50px] lg:px-[120px]">
     <div class="relative mx-auto max-w-[1273px]">
       <div
-        class="relative flex min-h-[360px] flex-col justify-end overflow-hidden rounded-[35px] px-6 pb-16 pt-48 sm:min-h-[420px] sm:px-11 sm:pb-[94px] sm:pt-[289px] lg:min-h-[489px]"
+        class="relative flex aspect-[1273/560] w-full flex-col justify-end overflow-hidden rounded-[35px] px-6 pb-12 pt-24 sm:px-11 sm:pb-16 sm:pt-32 lg:pb-[72px]"
       >
         <NuxtImg
           :src="p.image || '/blog/hero-bg.jpg'"
           alt=""
-          class="absolute inset-0 size-full object-cover object-bottom"
+          class="absolute inset-0 size-full object-cover object-center"
           width="1273"
-          height="489"
+          height="560"
+          fit="cover"
         />
         <div
           class="absolute inset-0 rounded-[35px]"

@@ -17,9 +17,9 @@
 </script>
 
 <template>
-  <section class="bg-white px-6 py-16 lg:px-[120px]">
+  <section class="bg-white px-4 py-16 sm:px-6 lg:px-[120px]">
     <div
-      class="mx-auto flex max-w-[1273px] flex-col items-center gap-10 rounded-[80px] px-6 py-16 text-center lg:py-[70px]"
+      class="mx-auto flex max-w-[1273px] flex-col items-center gap-10 rounded-[32px] px-5 py-16 text-center sm:rounded-[80px] sm:px-6 lg:py-[70px]"
       :class="p.gradient ? '' : 'bg-brand-darkgreen'"
       :style="p.gradient ? { background: gradientBackground } : undefined"
     >

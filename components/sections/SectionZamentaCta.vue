@@ -17,8 +17,10 @@
 </script>
 
 <template>
-  <section class="bg-white px-6 py-16 lg:px-[120px]">
-    <div class="relative mx-auto max-w-[1284px] overflow-hidden rounded-[40px]">
+  <section class="bg-white px-4 py-16 sm:px-6 lg:px-[120px]">
+    <div
+      class="relative mx-auto max-w-[1284px] overflow-hidden rounded-[24px] sm:rounded-[40px]"
+    >
       <NuxtImg
         :src="p.backgroundImage || '/lieferantenmanagement/zamenta-cta-bg.jpg'"
         alt=""
@@ -29,7 +31,7 @@
       <div class="absolute inset-0 bg-black/60" />
 
       <div
-        class="relative flex flex-col items-center gap-8 px-6 py-20 text-center lg:py-24"
+        class="relative flex flex-col items-center gap-8 px-5 py-20 text-center sm:px-6 lg:py-24"
       >
         <NuxtImg
           :src="p.logoImage || '/lieferantenmanagement/zamenta-logo-white.png'"
@@ -39,7 +41,7 @@
           height="47"
         />
         <h2
-          class="max-w-[982px] font-sans text-[32px] font-bold leading-tight text-white lg:text-[44px]"
+          class="max-w-[982px] font-sans text-[26px] font-bold leading-tight text-white sm:text-[32px] lg:text-[44px]"
         >
           {{ t(p.title) }}
         </h2>

@@ -14,22 +14,28 @@
 </script>
 
 <template>
-  <section v-if="p.posts.length" class="bg-white px-6 py-16 lg:px-[120px]">
+  <section
+    v-if="p.posts.length"
+    class="bg-white px-6 pb-16 pt-6 lg:px-[120px] lg:py-16"
+  >
     <div class="mx-auto max-w-[1273px]">
       <hr class="border-brand-darkgreen/20" />
 
       <h2
-        class="mt-16 font-sans text-[28px] font-bold text-brand-darkgreen sm:text-[36px]"
+        class="mt-8 font-sans text-[24px] font-bold text-brand-darkgreen sm:mt-16 sm:text-[32px] lg:text-[36px]"
       >
         {{ t({ de: "Neueste Beiträge", en: "Latest posts" }) }}
       </h2>
 
-      <div class="mt-16 grid gap-16 lg:grid-cols-3 lg:gap-x-6 lg:gap-y-16">
+      <div
+        class="mt-8 grid min-w-0 gap-12 lg:mt-16 lg:grid-cols-3 lg:gap-x-6 lg:gap-y-16"
+      >
         <BlogCard
           v-for="r of p.posts"
           :key="r.id"
           :post="r"
           :excerpt="excerpt(r)"
+          class="min-w-0"
         />
       </div>
     </div>

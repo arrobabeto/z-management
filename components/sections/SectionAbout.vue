@@ -16,13 +16,16 @@
 </script>
 
 <template>
-  <section id="uber-uns" class="bg-white px-6 py-16 lg:px-[120px] lg:py-[64px]">
+  <section
+    id="uber-uns"
+    class="bg-white px-6 pb-8 pt-16 sm:pb-12 lg:px-[120px] lg:py-[64px]"
+  >
     <div
       class="mx-auto flex max-w-[1273px] flex-col items-center gap-12 lg:flex-row lg:items-start lg:justify-center lg:gap-[155px]"
     >
       <div class="w-full max-w-[562px]">
         <h2
-          class="max-w-[516px] whitespace-pre-line font-sans text-[32px] font-bold leading-tight text-brand-darkgreen lg:text-[44px]"
+          class="max-w-[516px] whitespace-pre-line font-sans text-[26px] font-bold leading-tight text-brand-darkgreen sm:text-[32px] lg:text-[44px]"
         >
           {{ t(p.title) }}
         </h2>
@@ -34,7 +37,7 @@
           height="53"
         />
         <div
-          class="mt-9 font-sans text-[18px] font-medium leading-relaxed text-black"
+          class="mt-9 font-sans text-[18px] font-medium leading-relaxed text-black [&_p+p]:mt-5"
         >
           <SafeHtml :html="t(p.content)" />
         </div>
@@ -44,7 +47,7 @@
         <NuxtImg
           :src="p.founderImage || '/homepage/founder.jpg'"
           alt=""
-          class="h-[554px] w-full rounded-[32px] object-cover"
+          class="aspect-[453/554] w-full rounded-[32px] object-cover object-top"
           width="453"
           height="554"
         />

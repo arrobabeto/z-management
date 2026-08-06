@@ -17,12 +17,12 @@
 </script>
 
 <template>
-  <section class="bg-white px-6 py-16 lg:px-[120px]">
+  <section class="bg-white px-6 pb-16 pt-6 lg:px-[120px] lg:py-16">
     <div class="mx-auto max-w-[1280px]">
       <Transition name="story-slide" mode="out-in">
         <div
           :key="index"
-          class="overflow-hidden rounded-[76px] shadow-[0_4px_10px_rgba(0,0,0,0.05)]"
+          class="overflow-hidden rounded-[32px] shadow-[0_4px_10px_rgba(0,0,0,0.05)] sm:rounded-[76px]"
         >
           <SuccessStoryFlipCard :story="current" />
         </div>

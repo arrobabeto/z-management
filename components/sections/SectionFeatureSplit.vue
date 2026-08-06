@@ -27,7 +27,7 @@
         p.imagePosition === 'left' ? 'lg:flex-row' : 'lg:flex-row-reverse'
       "
     >
-      <div class="w-full shrink-0 lg:w-1/2">
+      <div class="w-full min-w-0 shrink-0 lg:w-1/2">
         <NuxtImg
           :src="p.image"
           alt=""
@@ -37,7 +37,7 @@
         />
       </div>
 
-      <div class="w-full space-y-8 lg:w-1/2">
+      <div class="w-full min-w-0 space-y-8 lg:w-1/2">
         <div class="space-y-4">
           <p
             class="font-sans text-[16px] font-medium text-brand-orange lg:text-[18px]"
@@ -45,12 +45,12 @@
             {{ t(p.tagline) }}
           </p>
           <h2
-            class="font-sans text-[32px] font-bold leading-tight text-brand-green lg:text-[44px]"
+            class="break-words font-sans text-[26px] font-bold leading-tight text-brand-green sm:text-[32px] lg:text-[44px]"
           >
             {{ t(p.title) }}
           </h2>
           <div
-            class="font-sans text-[18px] font-medium leading-[1.26] text-black"
+            class="break-words font-sans text-[18px] font-medium leading-[1.26] text-black"
           >
             <SafeHtml :html="t(p.content)" />
           </div>
@@ -69,7 +69,7 @@
               width="22"
               height="22"
             />
-            <span>{{ t(item) }}</span>
+            <span class="min-w-0 break-words">{{ t(item) }}</span>
           </li>
         </ul>
       </div>
