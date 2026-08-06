@@ -137,7 +137,6 @@
         de: 'Unser Hauptsitz befindet sich im idyllischen Eschenbach – circa 40 Minuten von Zürich entfernt. Allerdings haben wir unsere Prozesse so digitalisiert, dass wir die komplette Zusammenarbeit per Telefon und Video-Konferenz abwickeln können. Ein persönliches Treffen vor Ort ist möglich, aber nicht notwendig. So können wir unsere Kunden aus der Schweiz heraus global betreuen.',
         en: 'Our headquarters are in idyllic Eschenbach – about 40 minutes from Zurich. We have digitised our processes so that we can handle all collaboration by phone and video conference. An in-person meeting is possible but not necessary. This allows us to support our clients globally from Switzerland.',
       }"
-      cta-url="mailto:info@z-management.ch"
     />
   </main>
 </template>

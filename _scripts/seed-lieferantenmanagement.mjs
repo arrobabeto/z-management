@@ -282,7 +282,8 @@ const sections = [
       de: "Zum kostenlosen Beratungsgespräch",
       en: "Free consultation",
     },
-    ctaUrl: "mailto:info@z-management.ch",
+    ctaUrl:
+      "https://calendly.com/zmanagement-ch/30-minuten-zoom-call-kennenlerngespraech",
     backgroundImage: "/lieferantenmanagement/zamenta-cta-bg.jpg",
     logoImage: "/lieferantenmanagement/zamenta-logo-white.png",
     _orbi: { component: "SectionZamentaCta" },

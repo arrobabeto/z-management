@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import BrandButton from "~/components/generic/BrandButton.vue"
-  import { socialLinks } from "~/constants/socialLinks"
+  import { CALENDLY_URL, CONTACT_MAILTO } from "~/constants/siteLinks"
   import { useTranslate } from "~/composables/useTranslate"
   import type { I18nString } from "~/types/util/I18nString"
 
@@ -18,8 +18,6 @@
   }>()
 
   const t = useTranslate()
-
-  const social = socialLinks
 </script>
 
 <template>
@@ -61,7 +59,7 @@
                 en: 'Free initial consultation',
               }
             "
-            :href="p.ctaUrl || '#faq'"
+            :href="p.ctaUrl || CALENDLY_URL"
           />
         </div>
       </div>
@@ -102,7 +100,7 @@
               }}
             </p>
             <a
-              :href="p.contactUrl || 'mailto:info@z-management.ch'"
+              :href="p.contactUrl || CONTACT_MAILTO"
               class="mt-4 inline-flex items-center justify-center rounded-xl bg-brand-offwhite py-3 pl-3 pr-5 font-dm text-[18px] text-[#242424] transition-colors hover:bg-white"
             >
               {{
@@ -124,25 +122,6 @@
         >
           {{ t(p.lead) }}
         </p>
-      </div>
-
-      <div class="mt-5 flex justify-end gap-3">
-        <a
-          v-for="s of social"
-          :key="s.name"
-          :href="s.url"
-          :aria-label="s.name"
-          class="flex size-[42px] items-center justify-center rounded-[10px] text-brand-darkgreen transition-colors"
-          :class="
-            s.highlight
-              ? 'bg-brand-orange text-white'
-              : 'hover:text-brand-orange'
-          "
-        >
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-            <path :d="s.path" />
-          </svg>
-        </a>
       </div>
     </div>
   </section>

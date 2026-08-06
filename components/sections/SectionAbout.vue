@@ -16,10 +16,7 @@
 </script>
 
 <template>
-  <section
-    id="ueber-uns"
-    class="bg-white px-6 py-16 lg:px-[120px] lg:py-[64px]"
-  >
+  <section id="uber-uns" class="bg-white px-6 py-16 lg:px-[120px] lg:py-[64px]">
     <div
       class="mx-auto flex max-w-[1273px] flex-col items-center gap-12 lg:flex-row lg:items-start lg:justify-center lg:gap-[155px]"
     >

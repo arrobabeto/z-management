@@ -1,37 +1,12 @@
 <script setup lang="ts">
   import { ref } from "vue"
   import { useTranslate } from "~/composables/useTranslate"
-  import type { I18nString } from "~/types/util/I18nString"
-
-  type NavLink = { label: I18nString; url: string }
+  import { mainNavLinks } from "~/constants/siteLinks"
 
   const t = useTranslate()
   const isOpen = ref(false)
 
-  const links: NavLink[] = [
-    {
-      label: {
-        en: "Risk management in one click",
-        de: "Risikomanagement mit einem Klick",
-      },
-      url: "/#risikomanagement",
-    },
-    {
-      label: { en: "Holistic procurement", de: "Ganzheitlicher Einkauf" },
-      url: "/ganzheitliches-lieferantenmanagement",
-    },
-    {
-      label: { en: "How we work", de: "Ablauf der Zusammenarbeit" },
-      url: "/#ablauf",
-    },
-    { label: { en: "About us", de: "Über uns" }, url: "/#ueber-uns" },
-    {
-      label: { en: "Testimonials", de: "Das sagen unsere Kunden" },
-      url: "/erfolgsgeschichten",
-    },
-    { label: { en: "Blog", de: "Blog" }, url: "/posts" },
-    { label: { en: "FAQ", de: "FAQ" }, url: "/#faq" },
-  ]
+  const links = mainNavLinks
 </script>
 
 <template>

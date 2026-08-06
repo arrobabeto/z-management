@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import BrandButton from "~/components/generic/BrandButton.vue"
+  import { CALENDLY_URL } from "~/constants/siteLinks"
   import { useTranslate } from "~/composables/useTranslate"
   import type { I18nString } from "~/types/util/I18nString"
 
@@ -52,7 +53,7 @@
             en: 'Free initial consultation',
           }
         "
-        :href="p.ctaUrl || 'mailto:info@z-management.ch'"
+        :href="p.ctaUrl || CALENDLY_URL"
       />
     </div>
   </section>

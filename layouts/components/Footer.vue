@@ -1,44 +1,13 @@
 <script setup lang="ts">
   import { useTranslate } from "~/composables/useTranslate"
   import { socialLinks } from "~/constants/socialLinks"
-  import type { I18nString } from "~/types/util/I18nString"
-
-  type NavLink = { label: I18nString; url: string }
+  import { legalLinks, mainNavLinks } from "~/constants/siteLinks"
 
   const t = useTranslate()
   const year = new Date().getFullYear()
 
-  const links: NavLink[] = [
-    {
-      label: {
-        en: "Risk management in one click",
-        de: "Risikomanagement mit einem Klick",
-      },
-      url: "/#risikomanagement",
-    },
-    {
-      label: { en: "Holistic procurement", de: "Ganzheitlicher Einkauf" },
-      url: "/ganzheitliches-lieferantenmanagement",
-    },
-    {
-      label: { en: "How we work", de: "Ablauf der Zusammenarbeit" },
-      url: "/#ablauf",
-    },
-    { label: { en: "About us", de: "Über uns" }, url: "/#ueber-uns" },
-    {
-      label: { en: "Testimonials", de: "Das sagen unsere Kunden" },
-      url: "/erfolgsgeschichten",
-    },
-    { label: { en: "Blog", de: "Blog" }, url: "/posts" },
-    { label: { en: "FAQ", de: "FAQ" }, url: "/#faq" },
-  ]
-
-  const legal: NavLink[] = [
-    { label: { en: "Imprint", de: "Impressum" }, url: "/imprint" },
-    { label: { en: "Privacy", de: "Datenschutz" }, url: "/privacy" },
-    { label: { en: "Terms", de: "AGB" }, url: "/terms" },
-  ]
-
+  const links = mainNavLinks
+  const legal = legalLinks
   const social = socialLinks
 </script>
 
@@ -49,13 +18,15 @@
     >
       <!-- Logo + tagline -->
       <div class="flex w-full max-w-[510px] flex-col items-center gap-7">
-        <NuxtImg
-          src="/brand/logo-light.svg"
-          alt="Z-Management Business Solutions"
-          class="h-[44px] w-auto"
-          width="241"
-          height="51"
-        />
+        <NuxtLinkLocale to="/" aria-label="Z-Management">
+          <NuxtImg
+            src="/brand/logo-light.svg"
+            alt="Z-Management Business Solutions"
+            class="h-[44px] w-auto"
+            width="241"
+            height="51"
+          />
+        </NuxtLinkLocale>
         <p
           class="text-center font-sans text-[28px] font-normal leading-tight text-brand-offwhite sm:text-[36px]"
         >
@@ -172,6 +143,8 @@
               :key="s.name"
               :href="s.url"
               :aria-label="s.name"
+              target="_blank"
+              rel="noopener noreferrer"
               class="flex size-[42px] items-center justify-center rounded-[10px] text-white transition-colors"
               :class="
                 s.highlight
@@ -201,7 +174,17 @@
         <p>{{ t({ en: "Z-Management", de: "Z-Management" }) }} © {{ year }}</p>
         <div class="flex items-center gap-2">
           <template v-for="(l, i) of legal" :key="l.url">
+            <a
+              v-if="l.external"
+              :href="l.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="transition-colors hover:text-brand-orange"
+            >
+              {{ t(l.label) }}
+            </a>
             <NuxtLinkLocale
+              v-else
               :to="l.url"
               class="transition-colors hover:text-brand-orange"
             >

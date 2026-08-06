@@ -1,5 +1,7 @@
 <script setup lang="ts">
+  import { computed } from "vue"
   import { useTranslate } from "~/composables/useTranslate"
+  import { CALENDLY_URL } from "~/constants/siteLinks"
   import type { I18nString } from "~/types/util/I18nString"
 
   const p = withDefaults(
@@ -8,10 +10,17 @@
       href?: string
       variant?: "primary" | "secondary"
     }>(),
-    { variant: "primary", href: "#faq" },
+    { variant: "primary", href: CALENDLY_URL },
   )
 
   const t = useTranslate()
+
+  const isExternal = computed(
+    () =>
+      p.href.startsWith("http://") ||
+      p.href.startsWith("https://") ||
+      p.href.startsWith("mailto:"),
+  )
 </script>
 
 <template>
@@ -22,6 +31,12 @@
       p.variant === 'primary'
         ? 'bg-brand-orange text-white hover:bg-brand-yellow'
         : 'bg-brand-green text-white hover:bg-brand-darkgreen'
+    "
+    :target="isExternal && !p.href.startsWith('mailto:') ? '_blank' : undefined"
+    :rel="
+      isExternal && !p.href.startsWith('mailto:')
+        ? 'noopener noreferrer'
+        : undefined
     "
   >
     {{ t(p.label) }}

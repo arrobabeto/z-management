@@ -10,6 +10,22 @@ const redirects = [
     from: "/blog",
     to: "/posts",
   },
+  {
+    from: "/blogs",
+    to: "/posts",
+  },
+  {
+    from: "/imprint",
+    to: "https://www.z-management.ch/impressum/",
+  },
+  {
+    from: "/privacy",
+    to: "https://www.z-management.ch/datenschutzerklarung/",
+  },
+  {
+    from: "/terms",
+    to: "https://www.z-management.ch/agb/",
+  },
 ]
 
 export default defineEventHandler((event) => {
