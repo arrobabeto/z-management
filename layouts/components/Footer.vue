@@ -171,7 +171,10 @@
       <div
         class="flex w-full flex-col items-center justify-between gap-3 font-sans text-[14px] text-white sm:flex-row"
       >
-        <p>{{ t({ en: "Z-Management", de: "Z-Management" }) }} © {{ year }}</p>
+        <p>
+          {{ t({ en: "Z-Management", de: "Z-Management" }) }} © {{ year }}.
+          {{ t("all_rights_reserved") }}.
+        </p>
         <div class="flex items-center gap-2">
           <template v-for="(l, i) of legal" :key="l.url">
             <a

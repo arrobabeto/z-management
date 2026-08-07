@@ -73,7 +73,7 @@
               </p>
               <div
                 v-if="openIndex === i"
-                class="mt-4 font-sans text-[18px] font-medium leading-relaxed text-black [&_li]:my-0.5 [&_ul+p]:mt-5 [&_ul]:my-0 [&_ul]:list-disc [&_ul]:pl-6"
+                class="mt-4 font-sans text-[18px] font-medium leading-relaxed text-black [&_li]:my-0.5 [&_p:has(+ul)]:pb-[10px] [&_ul+p]:mt-5 [&_ul]:my-0 [&_ul]:list-disc [&_ul]:pl-6"
               >
                 <SafeHtml :html="t(item.answer)" />
               </div>

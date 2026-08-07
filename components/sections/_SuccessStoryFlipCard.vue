@@ -44,9 +44,9 @@
   >
     <div class="story-flip__inner">
       <div class="story-flip__face story-flip__face--front">
-        <div class="flex h-full flex-col lg:flex-row">
+        <div class="flex h-full min-h-0 flex-col lg:flex-row">
           <div
-            class="relative h-[360px] w-full shrink-0 overflow-hidden bg-brand-green lg:h-[650px] lg:w-1/2 lg:max-w-[648px]"
+            class="relative h-[360px] w-full shrink-0 overflow-hidden bg-brand-green lg:h-auto lg:min-h-[520px] lg:w-1/2 lg:max-w-[648px] lg:self-stretch"
           >
             <NuxtImg
               :src="p.story.photo || '/erfolgsgeschichten/adrian-balz.jpg'"
@@ -58,16 +58,16 @@
           </div>
 
           <div
-            class="flex w-full min-w-0 flex-1 flex-col items-center justify-center bg-[#f6f4f3] px-6 py-12 lg:px-9 lg:py-[137px]"
+            class="flex w-full min-w-0 flex-1 flex-col items-center justify-center bg-[#f6f4f3] px-6 py-12 lg:px-9 lg:py-16"
           >
             <div class="flex max-w-[534px] flex-col items-center gap-12">
               <NuxtImg
                 v-if="p.story.logo"
                 :src="p.story.logo"
                 alt=""
-                class="h-9 w-auto"
-                width="130"
-                height="36"
+                class="h-9 w-auto max-w-[200px] object-contain object-center"
+                width="254"
+                height="55"
               />
 
               <blockquote
@@ -96,7 +96,7 @@
         class="story-flip__face story-flip__face--back hidden bg-white lg:block"
       >
         <div
-          class="flex h-full flex-col gap-[38px] overflow-y-auto px-6 py-10 sm:px-12 lg:px-20 lg:py-[60px]"
+          class="flex h-full flex-col gap-[38px] px-6 py-10 sm:px-12 lg:px-20 lg:py-[60px]"
         >
           <div class="grid gap-8 lg:grid-cols-2 lg:gap-[46px]">
             <div class="flex flex-col gap-3">
@@ -228,7 +228,6 @@
 
   .story-flip__inner {
     position: relative;
-    min-height: 360px;
   }
 
   .story-flip__face--front {
@@ -237,8 +236,9 @@
   }
 
   @media (min-width: 1024px) {
+    /* Both faces share one grid cell so height grows to the taller content. */
     .story-flip__inner {
-      min-height: 650px;
+      display: grid;
       transform-style: preserve-3d;
       transition: transform 0.6s ease;
     }
@@ -249,13 +249,16 @@
     }
 
     .story-flip__face {
+      grid-area: 1 / 1;
+      height: 100%;
+      min-height: 100%;
       backface-visibility: hidden;
       -webkit-backface-visibility: hidden;
     }
 
     .story-flip__face--back {
-      position: absolute;
-      inset: 0;
+      position: relative;
+      inset: auto;
       transform: rotateY(180deg);
       z-index: 1;
     }
@@ -269,8 +272,6 @@
 
     .story-flip:hover .story-flip__face--back,
     .story-flip:focus-within .story-flip__face--back {
-      position: relative;
-      inset: auto;
       transform: none;
     }
 
@@ -280,8 +281,6 @@
     }
 
     .story-flip__face--back {
-      position: relative;
-      inset: auto;
       transform: none;
       display: none;
     }
