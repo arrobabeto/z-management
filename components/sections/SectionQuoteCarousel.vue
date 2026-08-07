@@ -59,17 +59,13 @@
           <button
             v-if="hasMultiple"
             type="button"
-            class="hidden h-11 w-[140px] shrink-0 items-center justify-center rounded-[60px] border border-white px-[15px] text-white transition-colors hover:bg-white/10 lg:flex"
+            class="quote-nav-btn quote-nav-btn--prev"
             :aria-label="t({ de: 'Vorheriges Zitat', en: 'Previous quote' })"
             @click="prev"
           >
             ←
           </button>
-          <div
-            v-else
-            class="hidden w-[140px] shrink-0 lg:block"
-            aria-hidden="true"
-          />
+          <div v-else class="quote-nav-spacer" aria-hidden="true" />
 
           <Transition name="quote-fade" mode="out-in">
             <blockquote
@@ -83,17 +79,13 @@
           <button
             v-if="hasMultiple"
             type="button"
-            class="hidden h-11 w-[140px] shrink-0 items-center justify-center rounded-[60px] bg-white px-[15px] text-brand-darkgreen transition-colors hover:bg-brand-offwhite lg:flex"
+            class="quote-nav-btn quote-nav-btn--next"
             :aria-label="t({ de: 'Nächstes Zitat', en: 'Next quote' })"
             @click="next"
           >
             →
           </button>
-          <div
-            v-else
-            class="hidden w-[140px] shrink-0 lg:block"
-            aria-hidden="true"
-          />
+          <div v-else class="quote-nav-spacer" aria-hidden="true" />
         </div>
 
         <Transition name="quote-fade" mode="out-in">
@@ -158,5 +150,65 @@
   .quote-dots .quote-dot {
     width: 21px;
     flex: none;
+  }
+
+  /* Override global `button { width: 100%; flex-basis: max-content }` so the
+     pills stay elongated like the Figma referenzen controls. */
+  .quote-nav-btn {
+    box-sizing: border-box;
+    display: none;
+    height: 44px;
+    width: 110px;
+    min-width: 110px;
+    flex: 0 0 110px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 60px;
+    padding: 0 15px;
+    text-align: center;
+    font-size: 18px;
+    line-height: 1;
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease;
+  }
+
+  @media (min-width: 1024px) {
+    .quote-nav-btn {
+      display: inline-flex;
+    }
+  }
+
+  .quote-nav-btn--prev {
+    border: 1px solid #fff;
+    background: transparent;
+    color: #fff;
+  }
+
+  .quote-nav-btn--prev:hover {
+    background: rgb(255 255 255 / 0.1);
+  }
+
+  .quote-nav-btn--next {
+    border: 1px solid transparent;
+    background: #fff;
+    color: #002a35;
+  }
+
+  .quote-nav-btn--next:hover {
+    background: #fdfdfd;
+  }
+
+  .quote-nav-spacer {
+    display: none;
+    flex: 0 0 110px;
+    width: 110px;
+    min-width: 110px;
+  }
+
+  @media (min-width: 1024px) {
+    .quote-nav-spacer {
+      display: block;
+    }
   }
 </style>
