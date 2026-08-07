@@ -11,7 +11,7 @@
 </script>
 
 <template>
-  <section class="bg-white px-6 pb-16 pt-0 lg:px-[120px]">
+  <section class="bg-white px-6 pb-16 pt-[50px] lg:px-[120px]">
     <div class="mx-auto max-w-[1034px] space-y-6 text-center">
       <h1
         class="break-words font-sans text-[26px] font-bold leading-tight text-black sm:text-[32px] lg:text-[44px]"
