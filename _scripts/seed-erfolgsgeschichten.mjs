@@ -75,42 +75,43 @@ const stories = [
   },
   {
     quote: {
-      de: "„Durch die zielorientierte Arbeitsweise wurden die vereinbarten Fristen jederzeit eingehalten.“",
-      en: '"Through the goal-oriented approach, the agreed deadlines were always met."',
+      de: "„Durch die strukturierte Analyse und gezielte Anpassung bestehender Abläufe konnten Prozessschritte vereinfacht, Risiken minimiert und potenzielle Ausfälle verhindert werden.“",
+      en: '"Through structured analysis and targeted adjustment of existing processes, process steps could be simplified, risks minimized and potential failures prevented."',
     },
-    name: "Markus Küpper",
+    name: "Sibylle Fleck",
     role: {
-      de: "Head of SCM, Swissoptic AG",
-      en: "Head of SCM, Swissoptic AG",
+      de: "Procurement Manager",
+      en: "Procurement Manager",
     },
-    photo: "/erfolgsgeschichten/markus-kuepper.jpg",
+    photo: "/erfolgsgeschichten/sibylle-fleck.jpg",
+    logo: "/erfolgsgeschichten/dyconex-logo.png",
     back: {
       beforeTitle: {
         de: "Vor der Zusammenarbeit",
         en: "Before our collaboration",
       },
       beforeText: {
-        de: "Bei Swissoptic standen anspruchsvolle Projekte mit engen Zeitplänen im Vordergrund. Gleichzeitig mussten Lieferantenrisiken transparent gemacht und Entscheidungen unter Zeitdruck getroffen werden.",
-        en: "At Swissoptic, demanding projects with tight schedules were a priority. Supplier risks also had to be made transparent and decisions taken under time pressure.",
+        de: "Materialengpässe führten immer wieder zu Versorgungsschwierigkeiten und verzögerten Bestellabläufen. Die Einkaufsprozesse waren nicht durchgehend standardisiert, wodurch es immer wieder zu Lieferproblemen kam. Zudem war der Einkauf in Investitionsbeschaffungen nicht frühzeitig eingebunden, was zu erhöhtem Aufwand und Risiken in Bezug auf Kosten und Lieferfähigkeit führte. Insgesamt fehlte es an klaren Verantwortlichkeiten und abgestimmten Prozessen zwischen den beteiligten Bereichen.",
+        en: "Material shortages repeatedly led to supply difficulties and delayed ordering processes. Procurement processes were not consistently standardized, which repeatedly caused delivery problems. In addition, procurement was not involved early in investment purchasing, which led to increased effort and risks regarding costs and delivery capability. Overall, clear responsibilities and coordinated processes between the areas involved were missing.",
       },
       approachTitle: { de: "Vorgehen", en: "Approach" },
       approachText: {
-        de: "Z-Management unterstützte mit einer zielorientierten Arbeitsweise, klaren Meilensteinen und strukturierter Risikoanalyse. Prozesse wurden pragmatisch angepasst, Verantwortlichkeiten geschärft und Fortschritt laufend nachverfolgt.",
-        en: "Z-Management supported with a goal-oriented approach, clear milestones and structured risk analysis. Processes were pragmatically adjusted, responsibilities clarified and progress tracked continuously.",
+        de: "Das operative Beschaffungswesen wurde umfassend analysiert und ein standardisierter Bestellprozess entwickelt und eingeführt. Im Bereich der Investitionsbeschaffung wurden interne Abläufe überprüft, relevante Stakeholder einbezogen und ein neues Vorgehen mit unterstützenden Checklisten etabliert. Für kritische Bauteile und Warengruppen wurde die Lieferantenbasis gezielt diversifiziert, um Abhängigkeiten zu reduzieren und Versorgungssicherheit zu erhöhen.",
+        en: "Operational procurement was comprehensively analyzed and a standardized ordering process was developed and introduced. In investment purchasing, internal workflows were reviewed, relevant stakeholders involved and a new approach with supporting checklists established. For critical components and commodity groups, the supplier base was deliberately diversified to reduce dependencies and increase supply security.",
       },
       resultTitle: { de: "Ergebnis", en: "Result" },
       results: [
         {
-          de: "Termintreue: Vereinbarte Fristen wurden jederzeit eingehalten",
-          en: "On schedule: agreed deadlines were always met",
+          de: "Besserer Überblick: Klare Verantwortlichkeiten im gesamten Investitionsprozess schaffen Transparenz und Effizienz.",
+          en: "Better overview: Clear responsibilities across the entire investment process create transparency and efficiency.",
         },
         {
-          de: "Klare Steuerung: Projekte blieben auch unter Druck beherrschbar",
-          en: "Clear control: projects remained manageable even under pressure",
+          de: "Frühzeitige Einbindung: Der Einkauf wird frühzeitig in Investitionsprojekte eingebunden, was Kosten- und Terminrisiken reduziert.",
+          en: "Early involvement: Procurement is involved early in investment projects, which reduces cost and schedule risks.",
         },
         {
-          de: "Nachhaltiger Nutzen: Strukturen für künftige Lieferantenbewertung geschaffen",
-          en: "Lasting benefit: structures created for future supplier evaluation",
+          de: "Mehr Sicherheit: Durch die Diversifizierung der Lieferantenbasis wurde die Versorgungssicherheit nachhaltig verbessert.",
+          en: "More security: Diversifying the supplier base sustainably improved supply security.",
         },
       ],
     },
