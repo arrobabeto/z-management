@@ -110,6 +110,7 @@ const sections = [
       en: "Overarching control level",
     },
     title: { de: "2 Lieferantenmanagement", en: "2 Supplier management" },
+    titleSingleLine: true,
     content: {
       de: "<p>Lieferantenmanagement ist der organisatorische Rahmen, in dem alle lieferantenbezogenen Aktivitäten zusammenlaufen. Es umfasst die Auswahl, Bewertung, Betreuung, Entwicklung und falls notwendig auch die Trennung von Lieferanten im Rahmen eines Phase-Out Prozesses.</p><p>Ohne diese Verzahnung kann das Lieferantenmanagement nicht seine volle Wirkung entfalten. Mit einer integrierten Sicht wird es jedoch zu einem strategischen Instrument, mit dem Unternehmen ihre Lieferanten gezielt steuern und entwickeln können.</p><p>Ein professionelles Lieferantenmanagement kann nur funktionieren, wenn es auf belastbaren Informationen basiert:</p>",
       en: "<p>Supplier management is the organisational framework in which all supplier-related activities come together.</p><p>Without this interlinking, supplier management cannot fully unfold its impact. With an integrated view, it becomes a strategic instrument.</p><p>Professional supplier management can only work when based on reliable information:</p>",
