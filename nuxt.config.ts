@@ -60,6 +60,8 @@ export default defineNuxtConfig({
       twitterCreator: process.env.NUXT_PUBLIC_TWITTER_CREATOR ?? "@orbitype",
       ogImageEnabled: process.env.NUXT_PUBLIC_OG_IMAGE_ENABLED !== "false",
       commentsEnabled: process.env.NUXT_PUBLIC_COMMENTS_ENABLED === "true",
+      preferredSourceEnabled:
+        process.env.NUXT_PUBLIC_PREFERRED_SOURCE_ENABLED !== "false",
       gtmId,
       ogLogoPath: process.env.NUXT_PUBLIC_OG_LOGO_PATH ?? "/favicon.svg",
     },
