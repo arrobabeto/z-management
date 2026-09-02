@@ -13,7 +13,9 @@
 </script>
 
 <template>
-  <section class="bg-white px-6 pb-8 pt-[30px] lg:px-[120px] lg:pb-10 lg:pt-0">
+  <section
+    class="bg-white px-6 pb-8 pt-[70px] lg:px-[120px] lg:pb-10 lg:pt-[70px]"
+  >
     <div class="mx-auto flex max-w-[1280px] flex-col gap-6">
       <h1
         class="break-words font-sans text-[26px] font-bold leading-tight text-brand-darkgreen sm:text-[32px] lg:text-[44px]"
