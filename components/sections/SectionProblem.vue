@@ -21,7 +21,7 @@
 </script>
 
 <template>
-  <section class="bg-white px-6 py-16 lg:px-[120px] lg:py-[64px]">
+  <section class="bg-white px-6 pb-16 pt-0 lg:px-[120px] lg:py-[64px]">
     <div
       class="mx-auto flex max-w-[1273px] flex-col items-center gap-10 lg:flex-row lg:gap-11"
     >
