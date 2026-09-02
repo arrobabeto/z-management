@@ -63,7 +63,20 @@
             :aria-label="t({ de: 'Vorheriges Zitat', en: 'Previous quote' })"
             @click="prev"
           >
-            ←
+            <svg
+              class="size-6"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M14.5 6.5 9 12l5.5 5.5"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
           </button>
           <div v-else class="quote-nav-spacer" aria-hidden="true" />
 
@@ -83,7 +96,20 @@
             :aria-label="t({ de: 'Nächstes Zitat', en: 'Next quote' })"
             @click="next"
           >
-            →
+            <svg
+              class="size-6"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M9.5 6.5 15 12l-5.5 5.5"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
           </button>
           <div v-else class="quote-nav-spacer" aria-hidden="true" />
         </div>
@@ -110,7 +136,20 @@
             :aria-label="t({ de: 'Vorheriges Zitat', en: 'Previous quote' })"
             @click="prev"
           >
-            ←
+            <svg
+              class="size-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M14.5 6.5 9 12l5.5 5.5"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
           </button>
           <button
             v-for="(_, i) of quotes"
@@ -128,7 +167,20 @@
             :aria-label="t({ de: 'Nächstes Zitat', en: 'Next quote' })"
             @click="next"
           >
-            →
+            <svg
+              class="size-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M9.5 6.5 15 12l-5.5 5.5"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
           </button>
         </nav>
       </div>

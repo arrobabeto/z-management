@@ -28,6 +28,10 @@ export const mainNavLinks: SiteNavLink[] = [
     url: "/#ablauf-der-zusammenarbeit",
   },
   { label: { en: "About us", de: "Über uns" }, url: "/#uber-uns" },
+  {
+    label: { en: "Einkauf", de: "Einkauf" },
+    url: "/ganzheitliches-lieferantenmanagement",
+  },
   { label: { en: "Blogs", de: "Blogs" }, url: "/posts" },
   {
     label: { en: "Testimonials", de: "Das sagen unsere Kunden" },
