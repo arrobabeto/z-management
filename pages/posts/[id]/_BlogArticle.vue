@@ -1,15 +1,17 @@
 <script setup lang="ts">
   import SafeHtml from "~/components/common/SafeHtml.vue"
+  import PreferredSourceButton from "~/components/PreferredSourceButton.vue"
   import BlogContactLinks from "./_BlogContactLinks.vue"
 
   const p = defineProps<{ html: string }>()
 </script>
 
 <template>
-  <section class="bg-white px-6 pb-16 lg:px-[120px]">
+  <section class="bg-white px-6 pb-10 lg:px-[120px] lg:pb-12">
     <div class="mx-auto max-w-[1273px]">
       <SafeHtml :html="p.html" class="blog-article max-w-[852px]" />
       <BlogContactLinks class="max-w-[852px]" />
+      <PreferredSourceButton class="mt-8 max-w-[852px]" />
     </div>
   </section>
 </template>

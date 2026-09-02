@@ -16,13 +16,13 @@
 <template>
   <section
     v-if="p.posts.length"
-    class="bg-white px-6 pb-16 pt-6 lg:px-[120px] lg:py-16"
+    class="bg-white px-6 pb-16 pt-8 lg:px-[120px] lg:pb-16 lg:pt-10"
   >
     <div class="mx-auto max-w-[1273px]">
       <hr class="border-brand-darkgreen/20" />
 
       <h2
-        class="mt-8 font-sans text-[24px] font-bold text-brand-darkgreen sm:mt-16 sm:text-[32px] lg:text-[36px]"
+        class="mt-8 font-sans text-[24px] font-bold text-brand-darkgreen sm:mt-10 sm:text-[32px] lg:text-[36px]"
       >
         {{ t({ de: "Neueste Beiträge", en: "Latest posts" }) }}
       </h2>
