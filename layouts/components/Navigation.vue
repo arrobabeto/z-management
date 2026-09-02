@@ -10,7 +10,7 @@
 </script>
 
 <template>
-  <nav class="sticky top-0 z-50 w-full border-b border-black/5 bg-white">
+  <nav class="sticky top-0 z-50 w-full bg-white">
     <div
       class="mx-auto flex max-w-[1512px] items-center justify-between gap-8 px-6 py-6 lg:px-[120px] lg:py-[34px]"
     >

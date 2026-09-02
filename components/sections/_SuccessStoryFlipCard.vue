@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { ref } from "vue"
+  import SafeHtml from "~/components/common/SafeHtml.vue"
   import { useTranslate } from "~/composables/useTranslate"
   import type { I18nString } from "~/types/util/I18nString"
 
@@ -118,11 +119,11 @@
               >
                 {{ t(p.story.back.approachTitle) }}
               </h3>
-              <p
-                class="font-sans text-[18px] font-normal leading-[1.26] text-black sm:text-[20px]"
+              <div
+                class="font-sans text-[18px] font-normal leading-[1.26] text-black sm:text-[20px] [&_li]:my-1 [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:pl-5"
               >
-                {{ t(p.story.back.approachText) }}
-              </p>
+                <SafeHtml :html="t(p.story.back.approachText)" />
+              </div>
             </div>
           </div>
 
@@ -188,11 +189,11 @@
             >
               {{ t(p.story.back.approachTitle) }}
             </h3>
-            <p
-              class="font-sans text-[18px] font-normal leading-[1.26] text-black sm:text-[20px]"
+            <div
+              class="font-sans text-[18px] font-normal leading-[1.26] text-black sm:text-[20px] [&_li]:my-1 [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:pl-5"
             >
-              {{ t(p.story.back.approachText) }}
-            </p>
+              <SafeHtml :html="t(p.story.back.approachText)" />
+            </div>
           </div>
         </div>
 

@@ -116,6 +116,49 @@ const stories = [
       ],
     },
   },
+  {
+    quote: {
+      de: "„Durch die zielorientierte Arbeitsweise wurden die vereinbarten Fristen jederzeit eingehalten.“",
+      en: '"Through the goal-oriented approach, the agreed deadlines were always met."',
+    },
+    name: "Markus Küpper",
+    role: {
+      de: "Head of SCM, Swissoptic AG",
+      en: "Head of SCM, Swissoptic AG",
+    },
+    photo: "/erfolgsgeschichten/markus-kuepper.jpg",
+    logo: "/erfolgsgeschichten/swissoptic-logo.png",
+    back: {
+      beforeTitle: {
+        de: "Vor der Zusammenarbeit",
+        en: "Before our collaboration",
+      },
+      beforeText: {
+        de: "Hohe Volatilität in der Kundennachfrage und Engpässe in der Materialversorgung führten zu Lieferausfällen und erhöhtem Abstimmungsaufwand mit Lieferanten. Die Produktion war dadurch immer wieder von Fehlteilen betroffen, was die Abläufe zeitweise ins Stocken brachte.",
+        en: "High volatility in customer demand and bottlenecks in material supply led to delivery failures and increased coordination effort with suppliers. Production was repeatedly affected by missing parts, which temporarily brought processes to a standstill.",
+      },
+      approachTitle: { de: "Vorgehen", en: "Approach" },
+      approachText: {
+        de: "<p>Gemeinsam wurde ein strukturiertes Vorgehen zur Stabilisierung der Lieferkette umgesetzt:</p><ul><li>Regelmässige Setup-Calls mit Schlüssellieferanten</li><li>Systematisches Monitoring und Risikobewertung</li><li>Aufbau von Second Sources und Optimierung der Warengruppenstruktur</li></ul>",
+        en: "<p>Together, a structured approach to stabilising the supply chain was implemented:</p><ul><li>Regular setup calls with key suppliers</li><li>Systematic monitoring and risk assessment</li><li>Building second sources and optimising the commodity group structure</li></ul>",
+      },
+      resultTitle: { de: "Ergebnis", en: "Result" },
+      results: [
+        {
+          de: "Besserer Überblick: Risiken und Einflussfaktoren wurden transparent und steuerbar.",
+          en: "Better overview: Risks and influencing factors became transparent and controllable.",
+        },
+        {
+          de: "Höhere Stabilität: Engpässe konnten reduziert, die Versorgungssicherheit verbessert werden.",
+          en: "Higher stability: Bottlenecks could be reduced and supply security improved.",
+        },
+        {
+          de: "Mehr Transparenz: Durch Kennzahlen und regelmässige Reportings wurde die Transparenz im Einkaufsprozess gesteigert.",
+          en: "More transparency: KPIs and regular reporting increased transparency in the procurement process.",
+        },
+      ],
+    },
+  },
 ]
 
 async function sql(body) {
@@ -142,7 +185,7 @@ for (const section of sections) {
   if (section._orbi?.component === "SectionSuccessStories") {
     section.stories = stories
     updated = true
-    console.log("Updated SectionSuccessStories.stories (2 flip cards)")
+    console.log("Updated SectionSuccessStories.stories (3 flip cards)")
   }
 }
 
