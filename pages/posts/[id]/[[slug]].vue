@@ -150,7 +150,11 @@
 
 <template>
   <main class="bg-white">
-    <BlogDetailHero :title="post.title" :image="post.img" />
+    <BlogDetailHero
+      :title="post.title"
+      :image="post.img"
+      :date="post.created_at"
+    />
 
     <BlogArticle :html="localizedLead" />
 
