@@ -234,6 +234,7 @@ const sections = [
       de: "„Die grösste Schwäche vieler Einkaufsorganisationen ist nicht fehlendes Wissen, sondern fragmentierte Information.“",
       en: '"The greatest weakness of many procurement organisations is not a lack of knowledge, but fragmented information."',
     },
+    name: "Christian Züger",
     _orbi: { component: "SectionQuoteBanner" },
   },
   {
