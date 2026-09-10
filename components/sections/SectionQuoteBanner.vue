@@ -2,7 +2,10 @@
   import { useTranslate } from "~/composables/useTranslate"
   import type { I18nString } from "~/types/util/I18nString"
 
-  const p = defineProps<{ quote: I18nString }>()
+  const p = defineProps<{
+    quote: I18nString
+    name?: string
+  }>()
 
   const t = useTranslate()
 </script>
@@ -18,6 +21,9 @@
         {{ t(p.quote) }}
       </blockquote>
       <div class="h-[61px] w-px bg-white/40" />
+      <p class="font-sans text-[24px] font-semibold text-white">
+        {{ p.name ?? "Christian Züger" }}
+      </p>
     </div>
   </section>
 </template>

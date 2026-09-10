@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import SafeHtml from "~/components/common/SafeHtml.vue"
   import BrandButton from "~/components/generic/BrandButton.vue"
-  import { CALENDLY_URL } from "~/constants/siteLinks"
+  import { bookingHref } from "~/constants/siteLinks"
   import { useTranslate } from "~/composables/useTranslate"
   import type { I18nString } from "~/types/util/I18nString"
 
@@ -50,7 +50,7 @@
             en: 'Free initial consultation',
           }
         "
-        :href="p.ctaUrl || CALENDLY_URL"
+        :href="bookingHref(p.ctaUrl)"
       />
     </div>
   </section>

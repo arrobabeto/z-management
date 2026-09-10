@@ -39,7 +39,7 @@
           );
       "
     >
-      <div class="max-w-[945px] space-y-6 text-white">
+      <div class="mx-auto max-w-[945px] space-y-6 text-center text-white">
         <h2
           class="font-sans text-[24px] font-semibold leading-[1.2] sm:text-[28px] lg:text-[36px]"
         >

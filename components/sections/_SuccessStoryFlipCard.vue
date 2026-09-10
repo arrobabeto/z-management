@@ -52,7 +52,7 @@
             <NuxtImg
               :src="p.story.photo || '/erfolgsgeschichten/adrian-balz.jpg'"
               :alt="p.story.name"
-              class="absolute left-[1.8%] top-[11.7%] h-[88.3%] w-[98.2%] object-cover"
+              class="absolute left-[1.8%] top-[11.7%] h-[88.3%] w-[98.2%] object-cover object-top"
               width="648"
               height="650"
             />
@@ -97,30 +97,30 @@
         class="story-flip__face story-flip__face--back hidden bg-white lg:block"
       >
         <div
-          class="flex h-full flex-col gap-[38px] px-6 py-10 sm:px-12 lg:px-20 lg:py-[60px]"
+          class="flex h-full min-w-0 flex-col gap-[38px] px-6 py-10 sm:px-12 lg:px-12 lg:py-[60px] xl:px-20"
         >
-          <div class="grid gap-8 lg:grid-cols-2 lg:gap-[46px]">
-            <div class="flex flex-col gap-3">
+          <div class="grid min-w-0 gap-8 lg:grid-cols-2 lg:gap-[46px]">
+            <div class="flex min-w-0 flex-col gap-3">
               <h3
-                class="font-sans text-[24px] font-semibold text-brand-green sm:text-[32px]"
+                class="font-sans text-[20px] font-semibold text-brand-green sm:text-[28px]"
               >
                 {{ t(p.story.back.beforeTitle) }}
               </h3>
               <p
-                class="font-sans text-[18px] font-normal leading-[1.26] text-black sm:text-[20px]"
+                class="font-sans text-[14px] font-normal leading-[1.26] text-black sm:text-[16px]"
               >
                 {{ t(p.story.back.beforeText) }}
               </p>
             </div>
 
-            <div class="flex flex-col gap-3">
+            <div class="flex min-w-0 flex-col gap-3">
               <h3
-                class="font-sans text-[24px] font-semibold text-brand-green sm:text-[32px]"
+                class="font-sans text-[20px] font-semibold text-brand-green sm:text-[28px]"
               >
                 {{ t(p.story.back.approachTitle) }}
               </h3>
               <div
-                class="font-sans text-[18px] font-normal leading-[1.26] text-black sm:text-[20px] [&_li]:my-1 [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:pl-5"
+                class="font-sans text-[14px] font-normal leading-[1.26] text-black sm:text-[16px] [&_li]:my-1 [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:pl-5"
               >
                 <SafeHtml :html="t(p.story.back.approachText)" />
               </div>
@@ -130,18 +130,20 @@
           <hr class="border-0 border-t-2 border-brand-green" />
 
           <div
-            class="mx-auto flex max-w-[723px] flex-col items-center gap-[19px]"
+            class="mx-auto flex w-full min-w-0 max-w-full flex-col items-center gap-[19px]"
           >
             <h3
-              class="text-center font-sans text-[24px] font-semibold text-brand-green sm:text-[32px]"
+              class="text-center font-sans text-[20px] font-semibold text-brand-green sm:text-[28px]"
             >
               {{ t(p.story.back.resultTitle) }}
             </h3>
-            <ul class="space-y-2 text-center">
+            <ul
+              class="mx-auto w-fit max-w-full list-disc space-y-2 pl-5 text-left lg:whitespace-nowrap"
+            >
               <li
                 v-for="(item, i) of p.story.back.results"
                 :key="i"
-                class="font-sans text-[18px] font-normal leading-[1.6] text-black sm:text-[20px]"
+                class="font-sans text-[14px] font-normal leading-[1.6] text-black sm:text-[16px]"
               >
                 {{ t(item) }}
               </li>
@@ -172,12 +174,12 @@
         <div class="grid gap-8">
           <div class="flex flex-col gap-3">
             <h3
-              class="font-sans text-[24px] font-semibold text-brand-green sm:text-[32px]"
+              class="font-sans text-[20px] font-semibold text-brand-green sm:text-[28px]"
             >
               {{ t(p.story.back.beforeTitle) }}
             </h3>
             <p
-              class="font-sans text-[18px] font-normal leading-[1.26] text-black sm:text-[20px]"
+              class="font-sans text-[14px] font-normal leading-[1.26] text-black sm:text-[16px]"
             >
               {{ t(p.story.back.beforeText) }}
             </p>
@@ -185,12 +187,12 @@
 
           <div class="flex flex-col gap-3">
             <h3
-              class="font-sans text-[24px] font-semibold text-brand-green sm:text-[32px]"
+              class="font-sans text-[20px] font-semibold text-brand-green sm:text-[28px]"
             >
               {{ t(p.story.back.approachTitle) }}
             </h3>
             <div
-              class="font-sans text-[18px] font-normal leading-[1.26] text-black sm:text-[20px] [&_li]:my-1 [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:pl-5"
+              class="font-sans text-[14px] font-normal leading-[1.26] text-black sm:text-[16px] [&_li]:my-1 [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:pl-5"
             >
               <SafeHtml :html="t(p.story.back.approachText)" />
             </div>
@@ -203,15 +205,15 @@
           class="mx-auto flex max-w-[723px] flex-col items-center gap-[19px]"
         >
           <h3
-            class="text-center font-sans text-[24px] font-semibold text-brand-green sm:text-[32px]"
+            class="text-center font-sans text-[20px] font-semibold text-brand-green sm:text-[28px]"
           >
             {{ t(p.story.back.resultTitle) }}
           </h3>
-          <ul class="space-y-2 text-center">
+          <ul class="mx-auto w-fit list-disc space-y-2 pl-5 text-left">
             <li
               v-for="(item, i) of p.story.back.results"
               :key="i"
-              class="font-sans text-[18px] font-normal leading-[1.6] text-black sm:text-[20px]"
+              class="font-sans text-[14px] font-normal leading-[1.6] text-black sm:text-[16px]"
             >
               {{ t(item) }}
             </li>

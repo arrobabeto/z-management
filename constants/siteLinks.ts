@@ -5,6 +5,12 @@ export const CALENDLY_URL =
 
 export const CONTACT_MAILTO = "mailto:info@z-management.ch"
 
+/** Consultation CTAs book via Calendly even if CMS still stores a mailto. */
+export function bookingHref(url?: string) {
+  if (!url || url.startsWith("mailto:")) return CALENDLY_URL
+  return url
+}
+
 export const LINKEDIN_URL = "https://www.linkedin.com/company/z-management-ag/"
 
 export type SiteNavLink = {
