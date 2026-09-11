@@ -54,6 +54,8 @@ so use ONLY these tags (others are stripped):
 | `<em>`                   | Italic emphasis                                       |
 | `<a href="…">`           | Links (rendered in brand orange)                      |
 | `<br>`                   | Line break within an item                             |
+| `<table>` / `<tr>` / …   | Comparison tables                                     |
+| `<blockquote>`           | Testimonials / quotes                                 |
 
 Rules:
 
@@ -72,7 +74,19 @@ Use this shape (see `payload.example.json`):
   "lead": { "de": "<h2>…</h2><p>…</p>", "en": "<h2>…</h2><p>…</p>" },
   "img": "/blog/your-image.jpg",
   "keywords": ["einkauf", "..."],
-  "status": "published"
+  "status": "published",
+  "sections": [
+    {
+      "_orbi": { "component": "BlogSeo" },
+      "metaDescription": { "de": "…", "en": "…" },
+      "faq": [
+        {
+          "question": { "de": "…", "en": "…" },
+          "answer": { "de": "…", "en": "…" }
+        }
+      ]
+    }
+  ]
 }
 ```
 
@@ -82,6 +96,17 @@ Use this shape (see `payload.example.json`):
 - `keywords` (optional): array of strings for SEO.
 - `status` (optional): `"published"` (default), `"review"`, or `"draft"`. Only
   `published` posts appear in listings.
+- `sections` (optional): include a `BlogSeo` block for dedicated meta description
+  and FAQPage JSON-LD (also put FAQ as HTML in `lead`).
+
+### Blog-Paket Word docs (Bexolutions)
+
+When the source is an “OPTIMIERTES BLOG-PAKET” `.docx`:
+
+- Use **TEIL 1–2** only (SEO + website article + schema hints).
+- Ignore TEIL 3 LinkedIn, TEIL 4 GBP, TEIL 5 changelog.
+- Implement interlinks, FAQ (HTML + `sections.faq`), and meta description.
+- If titles differ from an existing post: **ask** create vs update (do not assume).
 
 Write the payload to a temp file, e.g. `/tmp/new-blog.json`.
 

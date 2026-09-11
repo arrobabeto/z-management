@@ -1,15 +1,21 @@
 <script setup lang="ts">
+  import { useI18n } from "#imports"
   import SafeHtml from "~/components/common/SafeHtml.vue"
   import PreferredSourceButton from "~/components/PreferredSourceButton.vue"
   import BlogContactLinks from "./_BlogContactLinks.vue"
 
   const p = defineProps<{ html: string }>()
+  const { locale } = useI18n()
 </script>
 
 <template>
   <section class="bg-white px-6 pb-10 lg:px-[120px] lg:pb-12">
     <div class="mx-auto max-w-[1273px]">
-      <SafeHtml :html="p.html" class="blog-article max-w-[852px]" />
+      <SafeHtml
+        :html="p.html"
+        :lang="locale"
+        class="blog-article max-w-[852px]"
+      />
       <BlogContactLinks class="max-w-[852px]" />
       <PreferredSourceButton class="mt-8 max-w-[852px]" />
     </div>
@@ -23,6 +29,8 @@
     line-height: 1.55;
     overflow-wrap: anywhere;
     word-break: break-word;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .blog-article :deep(h2) {
@@ -98,8 +106,45 @@
   }
 
   .blog-article :deep(table) {
-    display: block;
-    max-width: 100%;
-    overflow-x: auto;
+    display: table;
+    width: 100%;
+    min-width: 40rem;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+    table-layout: auto;
+  }
+
+  .blog-article :deep(th),
+  .blog-article :deep(td) {
+    border: 1px solid rgb(0 42 53 / 0.18);
+    padding: 10px 12px;
+    text-align: left;
+    vertical-align: top;
+    word-break: normal;
+    overflow-wrap: normal;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphenate-character: "-";
+  }
+
+  .blog-article :deep(th) {
+    font-weight: 700;
+    background: rgb(0 42 53 / 0.05);
+    color: #002a35;
+    white-space: nowrap;
+  }
+
+  .blog-article :deep(blockquote) {
+    margin: 20px 0;
+    padding: 16px 20px;
+    border-left: 3px solid #ff6700;
+    background: rgb(0 42 53 / 0.04);
+    color: #002a35;
+    font-style: italic;
+  }
+
+  .blog-article :deep(blockquote p:last-child) {
+    margin-bottom: 0;
   }
 </style>

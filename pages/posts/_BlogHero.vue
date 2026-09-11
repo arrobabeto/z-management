@@ -15,25 +15,17 @@
   <section class="bg-white px-6 pb-[50px] lg:px-[120px]">
     <div class="relative mx-auto max-w-[1273px]">
       <div
-        class="relative flex aspect-[1273/560] w-full flex-col justify-end overflow-hidden rounded-[35px] px-6 pb-12 pt-24 sm:px-11 sm:pb-16 sm:pt-32 lg:pb-[72px]"
+        class="relative flex aspect-[1024/393] w-full flex-col justify-end overflow-hidden rounded-[35px] px-6 pb-12 pt-24 sm:px-11 sm:pb-16 sm:pt-32 lg:pb-[72px]"
       >
         <NuxtImg
           :src="p.image || '/blog/hero-bg.jpg'"
           alt=""
-          class="absolute inset-0 size-full object-cover object-center"
-          width="1273"
-          height="560"
           fit="cover"
-        />
-        <div
-          class="absolute inset-0 rounded-[35px]"
-          style="
-            background: linear-gradient(
-              86.95deg,
-              rgba(58, 58, 58, 0) 26.13%,
-              rgba(3, 41, 52, 0.8) 92.05%
-            );
-          "
+          class="absolute inset-0 size-full object-cover object-center"
+          style="object-fit: cover; object-position: center center"
+          width="1024"
+          height="393"
+          sizes="(max-width: 1273px) 100vw, 1273px"
         />
         <div class="relative z-10 max-w-[748px] space-y-5">
           <h1

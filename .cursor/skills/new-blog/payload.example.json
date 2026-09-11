@@ -9,5 +9,26 @@
   },
   "img": "/blog/post-1.jpg",
   "keywords": ["warengruppenmanagement", "einkauf", "strategie"],
-  "status": "published"
+  "status": "published",
+  "sections": [
+    {
+      "_orbi": { "component": "BlogSeo" },
+      "metaDescription": {
+        "de": "Warengruppenmanagement schafft Transparenz und Verhandlungsmacht im Einkauf. So strukturieren Sie Bedarfe, Lieferanten und Risiken.",
+        "en": "Category management creates transparency and negotiating power in procurement. Structure requirements, suppliers and risks."
+      },
+      "faq": [
+        {
+          "question": {
+            "de": "Was ist Warengruppenmanagement?",
+            "en": "What is category management?"
+          },
+          "answer": {
+            "de": "Warengruppenmanagement bündelt Bedarfe und Lieferanten systematisch, um Kosten, Risiken und Qualität steuerbar zu machen.",
+            "en": "Category management systematically bundles requirements and suppliers to make costs, risks and quality controllable."
+          }
+        }
+      ]
+    }
+  ]
 }
