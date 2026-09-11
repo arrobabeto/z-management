@@ -5,7 +5,7 @@
   import { useCanonicalLinks } from "~/composables/useCanonicalLinks"
   import { useLocalePaths } from "~/composables/useLocalePaths"
   import { fn } from "~/functions/fn"
-  import type { IPost } from "~/types/dto/IPost"
+  import type { IBlogSeoSection, IPost } from "~/types/dto/IPost"
   import type { IComment } from "~/types/dto/IComment"
   import InputV from "~/components/common/InputV.vue"
   import ButtonV from "~/components/common/ButtonV.vue"
@@ -32,6 +32,17 @@
     })
   const localizedLead = t(post.lead)
   const plainLead = fn.removeHtml(localizedLead)
+
+  const blogSeo = (post.sections ?? []).find(
+    (s) => s?._orbi?.component === "BlogSeo",
+  ) as IBlogSeoSection | undefined
+  const metaFromSeo = blogSeo?.metaDescription ? t(blogSeo.metaDescription) : ""
+  const faqItems = (blogSeo?.faq ?? [])
+    .map((item) => ({
+      question: t(item.question).trim(),
+      answer: t(item.answer).trim(),
+    }))
+    .filter((item) => item.question && item.answer)
 
   const relatedRows = await $fetch<IPost[]>("/api/posts", {
     query: {
@@ -74,7 +85,7 @@
   const { dePath, enPath, canonicalPath } = useLocalePaths()
   const canonicalUrl = `${config.public.siteUrl}${canonicalPath}`
   const title = t(post.title)
-  const description = fn.truncateText(plainLead, 160)
+  const description = metaFromSeo || fn.truncateText(plainLead, 160)
   const ogImage = config.public.ogImageEnabled
     ? generateOGImageUrl({
         title,
@@ -105,46 +116,66 @@
     twitterCreator: config.public.twitterCreator,
   })
 
+  const jsonLdScripts = [
+    {
+      type: "application/ld+json",
+      innerHTML: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline: title,
+        description,
+        datePublished: post.created_at,
+        dateModified: post.updated_at,
+        inLanguage: locale.value === "de" ? "de" : "en",
+        url: canonicalUrl,
+        image: {
+          "@type": "ImageObject",
+          url: ogImage,
+          width: "1200",
+          height: "630",
+        },
+        author: {
+          "@type": "Organization",
+          name: config.public.organizationName,
+        },
+        publisher: {
+          "@type": "Organization",
+          name: config.public.organizationName,
+          logo: {
+            "@type": "ImageObject",
+            url: config.public.organizationLogo,
+          },
+        },
+        mainEntityOfPage: canonicalUrl,
+      }),
+    },
+  ]
+
+  if (faqItems.length > 0) {
+    jsonLdScripts.push({
+      type: "application/ld+json",
+      innerHTML: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: faqItems.map((item) => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: item.answer,
+          },
+        })),
+      }),
+    })
+  }
+
   useHead({
     link: useCanonicalLinks({
       canonicalPath,
       enPath,
       dePath,
     }),
-    script: [
-      {
-        type: "application/ld+json",
-        innerHTML: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Article",
-          headline: title,
-          description,
-          datePublished: post.created_at,
-          dateModified: post.updated_at,
-          inLanguage: locale.value === "de" ? "de" : "en",
-          url: canonicalUrl,
-          image: {
-            "@type": "ImageObject",
-            url: ogImage,
-            width: "1200",
-            height: "630",
-          },
-          author: {
-            "@type": "Organization",
-            name: config.public.organizationName,
-          },
-          publisher: {
-            "@type": "Organization",
-            name: config.public.organizationName,
-            logo: {
-              "@type": "ImageObject",
-              url: config.public.organizationLogo,
-            },
-          },
-          mainEntityOfPage: canonicalUrl,
-        }),
-      },
-    ],
+    script: jsonLdScripts,
   })
 </script>
 

@@ -118,6 +118,7 @@ const bindings = {
   img: payload.img,
   status: JSON.stringify(status),
   keywords: JSON.stringify(payload.keywords || []),
+  sections: JSON.stringify(payload.sections || []),
 }
 
 const existing = await findExistingPost()
@@ -131,6 +132,7 @@ if (existing) {
       img = :img,
       status = :status::json,
       keywords = :keywords::json,
+      sections = :sections::json,
       updated_at = CURRENT_TIMESTAMP
       WHERE id = :id`,
     { ...bindings, id: existing.id },
@@ -144,8 +146,8 @@ if (existing) {
   console.log("  url:    ", `/posts/${existing.id}/${slug}`)
 } else {
   await runSql(
-    "INSERT INTO posts (title, lead, img, status, keywords) " +
-      "VALUES (:title::json, :lead::json, :img, :status::json, :keywords::json)",
+    "INSERT INTO posts (title, lead, img, status, keywords, sections) " +
+      "VALUES (:title::json, :lead::json, :img, :status::json, :keywords::json, :sections::json)",
     bindings,
   )
 

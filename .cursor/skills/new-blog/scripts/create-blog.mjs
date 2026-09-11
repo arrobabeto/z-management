@@ -81,8 +81,8 @@ async function runSql(sql, bindings) {
 }
 
 const insertSql =
-  "INSERT INTO posts (title, lead, img, status, keywords) " +
-  "VALUES (:title::json, :lead::json, :img, :status::json, :keywords::json)"
+  "INSERT INTO posts (title, lead, img, status, keywords, sections) " +
+  "VALUES (:title::json, :lead::json, :img, :status::json, :keywords::json, :sections::json)"
 
 await runSql(insertSql, {
   title: JSON.stringify(payload.title),
@@ -90,6 +90,7 @@ await runSql(insertSql, {
   img: payload.img || "/blog/hero-bg.jpg",
   status: JSON.stringify(status),
   keywords: JSON.stringify(payload.keywords || []),
+  sections: JSON.stringify(payload.sections || []),
 })
 
 const rows = await runSql(
