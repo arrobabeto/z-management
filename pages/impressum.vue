@@ -66,10 +66,10 @@
             <p>CH-8733 Eschenbach SG</p>
             <p>
               <a
-                href="mailto:info@zmanagement.local"
+                href="mailto:info@z-management.ch"
                 class="text-brand-orange underline transition-colors hover:text-brand-yellow"
               >
-                info@zmanagement.local
+                info@z-management.ch
               </a>
             </p>
             <p>CH-320-3062282-5</p>
