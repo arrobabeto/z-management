@@ -473,10 +473,10 @@
             </p>
             <p>
               <a
-                href="mailto:info@felixw128.sg-host.com"
+                href="mailto:info@z-management.ch"
                 class="text-brand-orange underline transition-colors hover:text-brand-yellow"
               >
-                info@felixw128.sg-host.com
+                info@z-management.ch
               </a>
             </p>
             <p>CHE-113.958.284 MWST</p>
