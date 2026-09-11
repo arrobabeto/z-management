@@ -16,15 +16,19 @@ const redirects = [
   },
   {
     from: "/imprint",
-    to: "https://www.z-management.ch/impressum/",
+    to: "/impressum",
   },
   {
     from: "/privacy",
-    to: "https://www.z-management.ch/datenschutzerklarung/",
+    to: "/datenschutz",
+  },
+  {
+    from: "/datenschutzerklarung",
+    to: "/datenschutz",
   },
   {
     from: "/terms",
-    to: "https://www.z-management.ch/agb/",
+    to: "/agb",
   },
 ]
 

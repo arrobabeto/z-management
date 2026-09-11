@@ -47,23 +47,19 @@ export const mainNavLinks: SiteNavLink[] = [
 ]
 
 /**
- * Legal links. CMS pages are not seeded yet, so these point at the live
- * WordPress URLs until impressum / datenschutz / agb exist in Orbitype.
+ * Legal links in the footer (first-party pages).
  */
 export const legalLinks: SiteNavLink[] = [
   {
     label: { en: "Imprint", de: "Impressum" },
-    url: "https://www.z-management.ch/impressum/",
-    external: true,
+    url: "/impressum",
   },
   {
     label: { en: "Privacy", de: "Datenschutz" },
-    url: "https://www.z-management.ch/datenschutzerklarung/",
-    external: true,
+    url: "/datenschutz",
   },
   {
     label: { en: "Terms", de: "AGB" },
-    url: "https://www.z-management.ch/agb/",
-    external: true,
+    url: "/agb",
   },
 ]
