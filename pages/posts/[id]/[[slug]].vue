@@ -43,6 +43,9 @@
       answer: t(item.answer).trim(),
     }))
     .filter((item) => item.question && item.answer)
+  const howToSteps = (blogSeo?.howTo?.steps ?? [])
+    .map((step) => ({ name: t(step.name).trim(), text: t(step.text).trim() }))
+    .filter((step) => step.name && step.text)
 
   const relatedRows = await $fetch<IPost[]>("/api/posts", {
     query: {
@@ -164,6 +167,24 @@
             "@type": "Answer",
             text: item.answer,
           },
+        })),
+      }),
+    })
+  }
+
+  if (blogSeo?.howTo && howToSteps.length > 0) {
+    jsonLdScripts.push({
+      type: "application/ld+json",
+      innerHTML: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        name: t(blogSeo.howTo.name) || title,
+        inLanguage: locale.value === "de" ? "de" : "en",
+        step: howToSteps.map((step, index) => ({
+          "@type": "HowToStep",
+          position: index + 1,
+          name: step.name,
+          text: step.text,
         })),
       }),
     })

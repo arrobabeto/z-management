@@ -28,7 +28,25 @@
             "en": "Category management systematically bundles requirements and suppliers to make costs, risks and quality controllable."
           }
         }
-      ]
+      ],
+      "howTo": {
+        "name": {
+          "de": "Warengruppenmanagement einführen",
+          "en": "Introducing category management"
+        },
+        "steps": [
+          {
+            "name": {
+              "de": "Spend-Analyse durchführen",
+              "en": "Run a spend analysis"
+            },
+            "text": {
+              "de": "Alle Beschaffungsausgaben nach Lieferant, Warengruppe und Zeitraum erfassen.",
+              "en": "Capture all procurement spend by supplier, category and period."
+            }
+          }
+        ]
+      }
     }
   ]
 }
