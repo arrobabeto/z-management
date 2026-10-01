@@ -5,10 +5,21 @@ export interface IBlogFaqItem {
   answer: I18nString
 }
 
-/** SEO + FAQ payload stored in `posts.sections` (no SQL migration). */
+export interface IBlogHowToStep {
+  name: I18nString
+  text: I18nString
+}
+
+export interface IBlogHowTo {
+  name: I18nString
+  steps: IBlogHowToStep[]
+}
+
+/** SEO + FAQ + HowTo payload stored in `posts.sections` (no SQL migration). */
 export interface IBlogSeoSection {
   metaDescription?: I18nString
   faq?: IBlogFaqItem[]
+  howTo?: IBlogHowTo
   _orbi?: { component: "BlogSeo" }
 }
 

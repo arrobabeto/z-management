@@ -97,7 +97,9 @@ Use this shape (see `payload.example.json`):
 - `status` (optional): `"published"` (default), `"review"`, or `"draft"`. Only
   `published` posts appear in listings.
 - `sections` (optional): include a `BlogSeo` block for dedicated meta description
-  and FAQPage JSON-LD (also put FAQ as HTML in `lead`).
+  and FAQPage JSON-LD (also put FAQ as HTML in `lead`). Add `howTo`
+  (`name` + `steps[{name,text}]`) when the article has a step/phase guide; it
+  emits HowTo JSON-LD.
 
 ### Blog-Paket Word docs (Bexolutions)
 
@@ -105,7 +107,11 @@ When the source is an “OPTIMIERTES BLOG-PAKET” `.docx`:
 
 - Use **TEIL 1–2** only (SEO + website article + schema hints).
 - Ignore TEIL 3 LinkedIn, TEIL 4 GBP, TEIL 5 changelog.
-- Implement interlinks, FAQ (HTML + `sections.faq`), and meta description.
+- Implement interlinks, FAQ (HTML + `sections.faq`), meta description, and
+  HowTo schema when TEIL 2.3 recommends it.
+- Resolve WordPress slugs in "Weiterführende Artikel" to current CMS post URLs
+  (prefer the newest optimized version of a topic).
+- Drop unconfirmed placeholder figures flagged in the checklist.
 - If titles differ from an existing post: **ask** create vs update (do not assume).
 
 Write the payload to a temp file, e.g. `/tmp/new-blog.json`.
